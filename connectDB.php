@@ -12,7 +12,7 @@
     }
     */
 
-    $sql = "SELECT * FROM ACCOUNT"; 
+    /*$sql = "SELECT * FROM ACCOUNT"; 
     // them vao database table ACCOUNT: id=1. username=admin, password=admin
     
     $stmt = sqlsrv_query($conn, $sql); // False (deny permission)???
@@ -21,6 +21,9 @@
     }
 
     $row = sqlsrv_fetch_array($stmt);
+    echo $row['ID'];
+    echo $row['USERNAME'];
+    echo $row['PASSWORD'];
     //echo $row['USERNAME'];
-    
+    */
 ?>

@@ -1,3 +1,29 @@
+<?php
+  if (isset($_POST['SignUpBtn']))
+  {
+    include('connectDB.php');
+    include('permission.php');
+
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM ACCOUNT";
+    $stmt = sqlsrv_query($conn, $sql);
+    $row = sqlsrv_fetch_array($stmt);
+    if (($row['USERNAME'] == $username)||($row['PASSWORD'] == $password)){
+      header("Location: user-register.php");
+      exit();
+      echo "Username or password is existed.<br />";
+    }
+
+    $sql = "INSERT INTO ACCOUNT (USERNAME, PASSWORD, USERLEVEL) VALUES (?, ?, ?)";
+    $params = array($username, $password, 3);
+    $stmt = sqlsrv_query( $conn, $sql, $params);
+    sqlsrv_close($conn);
+    header("Location: user-login.php");
+    exit();
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,12 +56,12 @@
         <img src="assets/img/logo.png" alt="">
         <h1>Log into your account</h1>
 
-        <form action="#">
+        <form action="user-register.php" method="POST">
 
           <div class="form-group">
             <div class="input-group">
               <span class="input-group-addon"><i class="ti-user"></i></span>
-              <input type="text" class="form-control" placeholder="Your name">
+              <input name="username" type="text" class="form-control" placeholder="Your name">
             </div>
           </div>
           
@@ -44,7 +70,7 @@
           <div class="form-group">
             <div class="input-group">
               <span class="input-group-addon"><i class="ti-email"></i></span>
-              <input type="text" class="form-control" placeholder="Your email address">
+              <input name="email" type="text" class="form-control" placeholder="Your email address">
             </div>
           </div>
           
@@ -53,11 +79,11 @@
           <div class="form-group">
             <div class="input-group">
               <span class="input-group-addon"><i class="ti-unlock"></i></span>
-              <input type="password" class="form-control" placeholder="Choose a password">
+              <input name="password" type="password" class="form-control" placeholder="Choose a password">
             </div>
           </div>
 
-          <button class="btn btn-primary btn-block" type="submit">Sign up</button>
+          <button name="SignUpBtn" class="btn btn-primary btn-block" type="submit">Sign up</button>
 
           <div class="login-footer">
             <h6>Or register with</h6>

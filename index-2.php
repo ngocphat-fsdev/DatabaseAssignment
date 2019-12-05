@@ -48,9 +48,10 @@
             </a>
 
             <ul class="dropdown-menu dropdown-menu-right">
+              <!--
               <li><a href="user-login.html">Login</a></li>
               <li><a href="user-register.html">Register</a></li>
-              <li><a href="user-forget-pass.html">Forget pass</a></li>
+              <li><a href="user-forget-pass.html">Forget pass</a></li>-->
               <li><a href="user-logout.php">Logout</a></li>
             </ul>
           </div>

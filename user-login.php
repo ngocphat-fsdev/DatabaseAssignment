@@ -10,21 +10,24 @@
     $password = $_POST['pass'];
 
     // kiem tra trong sql server
-    $sql = "SELECT USERNAME FROM ACCOUNT";
+    $sql = "SELECT * FROM ACCOUNT";
     $stmt = sqlsrv_query($conn, $sql);
     if ($stmt == FALSE){
       echo "Bla bla<br />";
     }
 
     $row = sqlsrv_fetch_array($stmt);
-    echo $row['USERNAME'];
+    
     if ($row['PASSWORD'] != $password ){
-        echo "Username or Password is incorrect!<br />";
+      header("Location: user-login.php");
+      echo "Username or Password is incorrect!<br />";
     }
 
     $_SESSION['username'] = $username;
-    $_SESSION['level'] = $level;
+    $_SESSION['level'] = $row['USERLEVEL'];
     // kiem tra phan quyen o day
+    sqlsrv_close($conn);
+    header("Location: index-2.php");
   }
 ?>
 <!DOCTYPE html>
