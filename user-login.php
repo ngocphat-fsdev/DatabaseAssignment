@@ -6,28 +6,28 @@
     include('connectDB.php');
     include('permission.php');
 
-    $username = $_POST['username'];
-    $password = $_POST['pass'];
-
+    $username = addslashes($_POST['username']);
+    $password = addslashes($_POST['pass']);
     // kiem tra trong sql server
-    $sql = "SELECT * FROM ACCOUNT";
+    $sql = "SELECT * FROM ACCOUNT WHERE USERNAME = '$username'";
     $stmt = sqlsrv_query($conn, $sql);
     if ($stmt == FALSE){
-      echo "Bla bla<br />";
+      die( print_r( sqlsrv_errors(), true));
     }
 
     $row = sqlsrv_fetch_array($stmt);
-    
-    if ($row['PASSWORD'] != $password ){
+    if (($row['PASSWORD'] != $password)){
       header("Location: user-login.php");
       echo "Username or Password is incorrect!<br />";
+      exit();
     }
 
     $_SESSION['username'] = $username;
-    $_SESSION['level'] = $row['USERLEVEL'];
+    $_SESSION['level'] = $row['LEVEL'];
     // kiem tra phan quyen o day
     sqlsrv_close($conn);
     header("Location: index-2.php");
+    echo "<script> location.replace('index-2.php');</script>";
   }
 ?>
 <!DOCTYPE html>

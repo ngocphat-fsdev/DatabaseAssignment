@@ -32,8 +32,8 @@
           <a class="navbar-toggle" href="#" data-toggle="offcanvas"><i class="ti-menu"></i></a>
 
           <div class="logo-wrapper">
-            <a class="logo" href="index.html"><img src="assets/img/logo.png" alt="logo"></a>
-            <a class="logo-alt" href="index.html"><img src="assets/img/logo-alt.png" alt="logo-alt"></a>
+            <a class="logo" href="index.php"><img src="assets/img/logo.png" alt="logo"></a>
+            <a class="logo-alt" href="index.php"><img src="assets/img/logo-alt.png" alt="logo-alt"></a>
           </div>
 
         </div>
@@ -49,9 +49,9 @@
 
             <ul class="dropdown-menu dropdown-menu-right">
               <!--
-              <li><a href="user-login.html">Login</a></li>
-              <li><a href="user-register.html">Register</a></li>
-              <li><a href="user-forget-pass.html">Forget pass</a></li>-->
+              <li><a href="user-login.php">Login</a></li>
+              <li><a href="user-register.php">Register</a></li>
+              <li><a href="user-forget-pass.php">Forget pass</a></li>-->
               <li><a href="user-logout.php">Logout</a></li>
             </ul>
           </div>
@@ -62,54 +62,54 @@
         <!-- Navigation menu -->
         <ul class="nav-menu">
           <li>
-            <a class="active" href="index.html">Home</a>
+            <a class="active" href="index.php">Home</a>
             <ul>
-              <li><a href="index.html">Version 1</a></li>
-              <li><a class="active" href="index-2.html">Version 2</a></li>
+              <li><a href="index.php">Version 1</a></li>
+              <li><a class="active" href="index-2.php">Version 2</a></li>
             </ul>
           </li>
           <li>
             <a href="#">Position</a>
             <ul>
-              <li><a href="job-list-1.html">Browse jobs - 1</a></li>
-              <li><a href="job-list-2.html">Browse jobs - 2</a></li>
-              <li><a href="job-list-3.html">Browse jobs - 3</a></li>
-              <li><a href="job-detail.html">Job detail</a></li>
-              <li><a href="job-apply.html">Apply for job</a></li>
-              <li><a href="job-add.html">Post a job</a></li>
-              <li><a href="job-manage.html">Manage jobs</a></li>
-              <li><a href="job-candidates.html">Candidates</a></li>
+              <li><a href="job-list-1.php">Browse jobs - 1</a></li>
+              <li><a href="job-list-2.php">Browse jobs - 2</a></li>
+              <li><a href="job-list-3.php">Browse jobs - 3</a></li>
+              <li><a href="job-detail.php">Job detail</a></li>
+              <li><a href="job-apply.php">Apply for job</a></li>
+              <li><a href="job-add.php">Post a job</a></li>
+              <li><a href="job-manage.php">Manage jobs</a></li>
+              <li><a href="job-candidates.php">Candidates</a></li>
             </ul>
           </li>
           <li>
             <a href="#">Resume</a>
             <ul>
-              <li><a href="resume-list.html">Browse resumes</a></li>
-              <li><a href="resume-detail.html">Resume detail</a></li>
-              <li><a href="resume-add.html">Create a resume</a></li>
-              <li><a href="resume-manage.html">Manage resumes</a></li>
+              <li><a href="resume-list.php">Browse resumes</a></li>
+              <li><a href="resume-detail.php">Resume detail</a></li>
+              <li><a href="resume-add.php">Create a resume</a></li>
+              <li><a href="resume-manage.php">Manage resumes</a></li>
             </ul>
           </li>
           <li>
             <a href="#">Company</a>
             <ul>
-              <li><a href="company-list.html">Browse companies</a></li>
-              <li><a href="company-detail.html">Company detail</a></li>
-              <li><a href="company-add.html">Create a company</a></li>
-              <li><a href="company-manage.html">Manage companies</a></li>
+              <li><a href="company-list.php">Browse companies</a></li>
+              <li><a href="company-detail.php">Company detail</a></li>
+              <li><a href="company-add.php">Create a company</a></li>
+              <li><a href="company-manage.php">Manage companies</a></li>
             </ul>
           </li>
           <li>
             <a href="#">Pages</a>
             <ul>
-              <li><a href="page-blog.html">Blog</a></li>
-              <li><a href="page-post.html">Blog-post</a></li>
-              <li><a href="page-about.html">About</a></li>
-              <li><a href="page-contact.html">Contact</a></li>
-              <li><a href="page-faq.html">FAQ</a></li>
-              <li><a href="page-pricing.html">Pricing</a></li>
-              <li><a href="page-typography.html">Typography</a></li>
-              <li><a href="page-ui-elements.html">UI elements</a></li>
+              <li><a href="page-blog.php">Blog</a></li>
+              <li><a href="page-post.php">Blog-post</a></li>
+              <li><a href="page-about.php">About</a></li>
+              <li><a href="page-contact.php">Contact</a></li>
+              <li><a href="page-faq.php">FAQ</a></li>
+              <li><a href="page-pricing.php">Pricing</a></li>
+              <li><a href="page-typography.php">Typography</a></li>
+              <li><a href="page-ui-elements.php">UI elements</a></li>
             </ul>
           </li>
         </ul>
@@ -167,7 +167,7 @@
 
             <!-- Job item -->
             <div class="col-xs-12">
-              <a class="item-block" href="job-detail.html">
+              <a class="item-block" href="job-detail.php">
                 <header>
                   <img src="assets/img/logo-google.jpg" alt="">
                   <div class="hgroup">
@@ -186,7 +186,7 @@
 
             <!-- Job item -->
             <div class="col-xs-12">
-              <a class="item-block" href="job-detail.html">
+              <a class="item-block" href="job-detail.php">
                 <header>
                   <img src="assets/img/logo-linkedin.png" alt="">
                   <div class="hgroup">
@@ -204,7 +204,7 @@
 
             <!-- Job item -->
             <div class="col-xs-12">
-              <a class="item-block" href="job-detail.html">
+              <a class="item-block" href="job-detail.php">
                 <header>
                   <img src="assets/img/logo-envato.png" alt="">
                   <div class="hgroup">
@@ -222,7 +222,7 @@
 
             <!-- Job item -->
             <div class="col-xs-12">
-              <a class="item-block" href="job-detail.html">
+              <a class="item-block" href="job-detail.php">
                 <header>
                   <img src="assets/img/logo-facebook.png" alt="">
                   <div class="hgroup">
@@ -240,7 +240,7 @@
 
             <!-- Job item -->
             <div class="col-xs-12">
-              <a class="item-block" href="job-detail.html">
+              <a class="item-block" href="job-detail.php">
                 <header>
                   <img src="assets/img/logo-microsoft.jpg" alt="">
                   <div class="hgroup">
@@ -259,7 +259,7 @@
           </div>
 
           <br><br>
-          <p class="text-center"><a class="btn btn-info" href="job-list.html">Browse all jobs</a></p>
+          <p class="text-center"><a class="btn btn-info" href="job-list.php">Browse all jobs</a></p>
         </div>
       </section>
       <!-- END Recent jobs -->
@@ -285,7 +285,7 @@
             
             
             <br><br>
-            <a class="btn btn-primary" href="page-typography.html">Learn more</a>
+            <a class="btn btn-primary" href="page-typography.php">Learn more</a>
           </div>
 
         </div>
@@ -443,22 +443,22 @@
           <div class="col-xs-6 col-md-3">
             <h6>Company</h6>
             <ul class="footer-links">
-              <li><a href="page-about.html">About us</a></li>
-              <li><a href="page-typography.html">How it works</a></li>
-              <li><a href="page-faq.html">Help center</a></li>
-              <li><a href="page-typography.html">Privacy policy</a></li>
-              <li><a href="page-contact.html">Contact us</a></li>
+              <li><a href="page-about.php">About us</a></li>
+              <li><a href="page-typography.php">How it works</a></li>
+              <li><a href="page-faq.php">Help center</a></li>
+              <li><a href="page-typography.php">Privacy policy</a></li>
+              <li><a href="page-contact.php">Contact us</a></li>
             </ul>
           </div>
 
           <div class="col-xs-6 col-md-3">
             <h6>Trendeing jobs</h6>
             <ul class="footer-links">
-              <li><a href="job-list.html">Front-end developer</a></li>
-              <li><a href="job-list.html">Android developer</a></li>
-              <li><a href="job-list.html">iOS developer</a></li>
-              <li><a href="job-list.html">Full stack developer</a></li>
-              <li><a href="job-list.html">Project administrator</a></li>
+              <li><a href="job-list.php">Front-end developer</a></li>
+              <li><a href="job-list.php">Android developer</a></li>
+              <li><a href="job-list.php">iOS developer</a></li>
+              <li><a href="job-list.php">Full stack developer</a></li>
+              <li><a href="job-list.php">Project administrator</a></li>
             </ul>
           </div>
         </div>
