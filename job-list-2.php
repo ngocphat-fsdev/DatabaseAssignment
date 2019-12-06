@@ -1,4 +1,3 @@
-<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,21 +7,21 @@
     <meta name="description" content="Post a job position or create your online resume by TheJobs!">
     <meta name="keywords" content="">
 
-    <title>TheJobs</title>
+    <title>TheJobs - Job list</title>
 
     <!-- Styles -->
     <link href="assets/css/app.min.css" rel="stylesheet">
     <link href="assets/css/custom.css" rel="stylesheet">
 
     <!-- Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Oswald:100,300,400,500,600,800%7COpen+Sans:300,400,500,600,700,800%7CMontserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,800%7COpen+Sans:300,400,500,600,700,800%7CMontserrat:400,700' rel='stylesheet' type='text/css'>
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="icon" href="assets/img/favicon.ico">
   </head>
 
-  <body class="nav-on-header smart-nav">
+  <body class="nav-on-header smart-nav bg-alt">
 
     <!-- Navigation bar -->
     <nav class="navbar">
@@ -49,17 +48,17 @@
         <!-- Navigation menu -->
         <ul class="nav-menu">
           <li>
-            <a class="active" href="index.php">Home</a>
+            <a href="index.php">Home</a>
             <ul>
-              <li><a class="active" href="index.php">Version 1</a></li>
+              <li><a href="index.php">Version 1</a></li>
               <li><a href="index-2.php">Version 2</a></li>
             </ul>
           </li>
           <li>
-            <a href="#">Position</a>
+            <a class="active" href="#">Position</a>
             <ul>
               <li><a href="job-list-1.php">Browse jobs - 1</a></li>
-              <li><a href="job-list-2.php">Browse jobs - 2</a></li>
+              <li><a class="active" href="job-list-2.php">Browse jobs - 2</a></li>
               <li><a href="job-list-3.php">Browse jobs - 3</a></li>
               <li><a href="job-detail.php">Job detail</a></li>
               <li><a href="job-apply.php">Apply for job</a></li>
@@ -107,49 +106,251 @@
     <!-- END Navigation bar -->
 
 
-    <!-- Site header -->
-    <header class="site-header size-lg text-center" style="background-image: url(assets/img/bg-banner1.jpg)">
+    <!-- Page header -->
+    <header class="page-header bg-img" style="background-image: url(assets/img/bg-banner1.jpg);">
+      <div class="container page-name">
+        <h1 class="text-center">Browse jobs</h1>
+        <p class="lead text-center">Use following search box to find jobs that fits you better</p>
+      </div>
+
       <div class="container">
-        <div class="col-xs-12">
-          <br><br>
-          <h2>We offer <mark>1,259</mark> job vacancies right now!</h2>
-          <h5 class="font-alt">Find your desire one in a minute</h5>
-          <br><br><br>
-          <form class="header-job-search">
-            <div class="input-keyword">
-              <input type="text" class="form-control" placeholder="Job title, skills, or company">
+        <form action="#">
+
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-4">
+              <input type="text" class="form-control" placeholder="Keyword: job title, skills, or company">
             </div>
 
-            <div class="input-location">
-              <input type="text" class="form-control" placeholder="City, state or zip">
+            <div class="form-group col-xs-12 col-sm-4">
+              <input type="text" class="form-control" placeholder="Location: city, state or zip">
             </div>
 
-            <div class="btn-search">
-              <button class="btn btn-primary" type="submit">Find jobs</button>
-              <a href="job-list.php">Advanced Job Search</a>
+            <div class="form-group col-xs-12 col-sm-4">
+              <select class="form-control selectpicker" multiple>
+                <option selected>All categories</option>
+                <option>Developer</option>
+                <option>Designer</option>
+                <option>Customer service</option>
+                <option>Finance</option>
+                <option>Healthcare</option>
+                <option>Sale</option>
+                <option>Marketing</option>
+                <option>Information technology</option>
+                <option>Others</option>
+              </select>
             </div>
-          </form>
-        </div>
+
+
+            <div class="form-group col-xs-12 col-sm-4">
+              <h6>Contract</h6>
+              <div class="checkall-group">
+                <div class="checkbox">
+                  <input type="checkbox" id="contract1" name="contract" checked>
+                  <label for="contract1">All types</label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="contract2" name="contract">
+                  <label for="contract2">Full-time <small>(354)</small></label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="contract3" name="contract">
+                  <label for="contract3">Part-time <small>(284)</small></label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="contract4" name="contract">
+                  <label for="contract4">Internship <small>(169)</small></label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="contract5" name="contract">
+                  <label for="contract5">Freelance <small>(480)</small></label>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-xs-12 col-sm-4">
+              <h6>Hourly rate</h6>
+              <div class="checkall-group">
+                <div class="checkbox">
+                  <input type="checkbox" id="rate1" name="rate" checked>
+                  <label for="rate1">All rates</label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="rate2" name="rate">
+                  <label for="rate2">$0 - $50 <small>(364)</small></label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="rate3" name="rate">
+                  <label for="rate3">$50 - $100 <small>(684)</small></label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="rate4" name="rate">
+                  <label for="rate4">$100 - $200 <small>(195)</small></label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="rate5" name="rate">
+                  <label for="rate5">$200+ <small>(39)</small></label>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-xs-12 col-sm-4">
+              <h6>Academic degree</h6>
+              <div class="checkall-group">
+                <div class="checkbox">
+                  <input type="checkbox" id="degree1" name="degree" checked>
+                  <label for="degree1">All degrees</label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="degree2" name="degree">
+                  <label for="degree2">Associate degree <small>(216)</small></label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="degree3" name="degree">
+                  <label for="degree3">Bachelor's degree <small>(569)</small></label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="degree4" name="degree">
+                  <label for="degree4">Master's degree <small>(439)</small></label>
+                </div>
+
+                <div class="checkbox">
+                  <input type="checkbox" id="degree5" name="degree">
+                  <label for="degree5">Doctoral degree <small>(84)</small></label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="button-group">
+            <div class="action-buttons">
+              <button class="btn btn-primary">Apply filter</button>
+            </div>
+          </div>
+
+        </form>
 
       </div>
+
     </header>
-    <!-- END Site header -->
+    <!-- END Page header -->
 
 
     <!-- Main container -->
     <main>
-
-
-
-      <!-- Recent jobs -->
-      <section>
+      <section class="no-padding-top bg-alt">
         <div class="container">
-          <header class="section-header">
-            <span>Latest</span>
-            <h2>Recent jobs</h2>
-          </header>
+          <div class="row item-blocks-condensed">
 
-          <div class="row item-blocks-connected">
+            <div class="col-xs-12">
+              <br>
+              <h5>We found <strong>357</strong> matches, you're watching <i>10</i> to <i>20</i></h5>
+            </div>
+
+            <!-- Job item -->
+            <div class="col-xs-12">
+              <a class="item-block" href="job-detail.php">
+                <header>
+                  <img src="assets/img/logo-google.jpg" alt="">
+                  <div class="hgroup">
+                    <h4>Senior front-end developer</h4>
+                    <h5>Google</h5>
+                  </div>
+                  <div class="header-meta">
+                    <span class="location">Menlo park, CA</span>
+                    <span class="label label-success">Full-time</span>
+                  </div>
+                </header>
+              </a>
+            </div>
+            <!-- END Job item -->
+
+
+            <!-- Job item -->
+            <div class="col-xs-12">
+              <a class="item-block" href="job-detail.php">
+                <header>
+                  <img src="assets/img/logo-linkedin.png" alt="">
+                  <div class="hgroup">
+                    <h4>Software Engineer (Entry or Senior)</h4>
+                    <h5>Linkedin</h5>
+                  </div>
+                  <div class="header-meta">
+                    <span class="location">Livermore, CA</span>
+                    <span class="label label-warning">Part-time</span>
+                  </div>
+                </header>
+              </a>
+            </div>
+            <!-- END Job item -->
+
+            <!-- Job item -->
+            <div class="col-xs-12">
+              <a class="item-block" href="job-detail.php">
+                <header>
+                  <img src="assets/img/logo-envato.png" alt="">
+                  <div class="hgroup">
+                    <h4>Full Stack Web Developer</h4>
+                    <h5>Envato</h5>
+                  </div>
+                  <div class="header-meta">
+                    <span class="location">San Francisco, CA</span>
+                    <span class="label label-info">Freelance</span>
+                  </div>
+                </header>
+              </a>
+            </div>
+            <!-- END Job item -->
+
+            <!-- Job item -->
+            <div class="col-xs-12">
+              <a class="item-block" href="job-detail.php">
+                <header>
+                  <img src="assets/img/logo-facebook.png" alt="">
+                  <div class="hgroup">
+                    <h4>Web Applications Developer</h4>
+                    <h5>Facebook</h5>
+                  </div>
+                  <div class="header-meta">
+                    <span class="location">Lexington, MA</span>
+                    <span class="label label-danger">Internship</span>
+                  </div>
+                </header>
+              </a>
+            </div>
+            <!-- END Job item -->
+
+            <!-- Job item -->
+            <div class="col-xs-12">
+              <a class="item-block" href="job-detail.php">
+                <header>
+                  <img src="assets/img/logo-microsoft.jpg" alt="">
+                  <div class="hgroup">
+                    <h4>Sr. SQL Server Developer</h4>
+                    <h5>Microsoft</h5>
+                  </div>
+                  <div class="header-meta">
+                    <span class="location">Palo Alto, CA</span>
+                    <span class="label label-success">Remote</span>
+                  </div>
+                </header>
+              </a>
+            </div>
+            <!-- END Job item -->
+
 
             <!-- Job item -->
             <div class="col-xs-12">
@@ -244,143 +445,31 @@
 
           </div>
 
-          <br><br>
-          <p class="text-center"><a class="btn btn-info" href="job-list.php">Browse all jobs</a></p>
-        </div>
-      </section>
-      <!-- END Recent jobs -->
 
+          <!-- Page navigation -->
+          <nav class="text-center">
+            <ul class="pagination">
+              <li>
+                <a href="#" aria-label="Previous">
+                  <i class="ti-angle-left"></i>
+                </a>
+              </li>
+              <li><a href="#">1</a></li>
+              <li class="active"><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li>
+                <a href="#" aria-label="Next">
+                  <i class="ti-angle-right"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <!-- END Page navigation -->
 
-      <!-- Facts -->
-      <section class="bg-img bg-repeat no-overlay section-sm" style="background-image: url(assets/img/bg-pattern.png)">
-        <div class="container">
-
-          <div class="row">
-            <div class="counter col-md-3 col-sm-6">
-              <p><span data-from="0" data-to="6890"></span>+</p>
-              <h6>Jobs</h6>
-            </div>
-
-            <div class="counter col-md-3 col-sm-6">
-              <p><span data-from="0" data-to="1200"></span>+</p>
-              <h6>Members</h6>
-            </div>
-
-            <div class="counter col-md-3 col-sm-6">
-              <p><span data-from="0" data-to="36800"></span>+</p>
-              <h6>Resume</h6>
-            </div>
-
-            <div class="counter col-md-3 col-sm-6">
-              <p><span data-from="0" data-to="15400"></span>+</p>
-              <h6>Company</h6>
-            </div>
-          </div>
 
         </div>
       </section>
-      <!-- END Facts -->
-
-
-      <!-- How it works -->
-      <section>
-        <div class="container">
-
-          <div class="col-sm-12 col-md-6">
-            <header class="section-header text-left">
-              <span>Workflow</span>
-              <h2>How it works</h2>
-            </header>
-
-            <p class="lead">Pellentesque et pulvinar orci. Suspendisse sed euismod purus. Pellentesque nunc ex, ultrices eu enim non, consectetur interdum nisl. Nam congue interdum mauris, sed ultrices augue lacinia in. Praesent turpis purus, faucibus in tempor vel, dictum ac eros.</p>
-            <p>Nulla quis felis et orci luctus semper sit amet id dui. Aenean ultricies lectus nunc, vel rhoncus odio sagittis eu. Sed at felis eu tortor mattis imperdiet et sed tortor. Nullam ac porttitor arcu. Vivamus tristique elit id tempor lacinia. Donec auctor at nibh eget tincidunt. Nulla facilisi. Nunc condimentum dictum mattis.</p>
-            
-            
-            <br><br>
-            <a class="btn btn-primary" href="page-typography.php">Learn more</a>
-          </div>
-
-          <div class="col-sm-12 col-md-6 hidden-xs hidden-sm">
-            <br>
-            <img class="center-block" src="assets/img/how-it-works.png" alt="how it works">
-          </div>
-
-        </div>
-      </section>
-      <!-- END How it works -->
-
-
-      <!-- Categories -->
-      <section class="bg-alt">
-        <div class="container">
-          <header class="section-header">
-            <span>Categories</span>
-            <h2>Popular categories</h2>
-            <p>Here's the most popular categories</p>
-          </header>
-
-          <div class="category-grid">
-            <a href="job-list-1.php">
-              <i class="fa fa-laptop"></i>
-              <h6>Technology</h6>
-              <p>Designer, Developer, IT Service, Front-end developer, Project management</p>
-            </a>
-
-            <a href="job-list-2.php">
-              <i class="fa fa-line-chart"></i>
-              <h6>Accounting</h6>
-              <p>Finance, Tax service, Payroll manager, Book keeper, Human resource</p>
-            </a>
-
-            <a href="job-list-3.php">
-              <i class="fa fa-medkit"></i>
-              <h6>Medical</h6>
-              <p>Doctor, Nurse, Hospotal, Dental service, Massagist</p>
-            </a>
-
-            <a href="job-list-1.php">
-              <i class="fa fa-cutlery"></i>
-              <h6>Food</h6>
-              <p>Restaurant, Food service, Coffe shop, Cashier, Waitress</p>
-            </a>
-
-            <a href="job-list-2.php">
-              <i class="fa fa-newspaper-o"></i>
-              <h6>Media</h6>
-              <p>Journalism, Newspaper, Reporter, Writer, Cameraman</p>
-            </a>
-
-            <a href="job-list-3.php">
-              <i class="fa fa-institution"></i>
-              <h6>Government</h6>
-              <p>Federal, Law, Human resource, Manager, Biologist</p>
-            </a> 
-          </div>
-
-        </div>
-      </section>
-      <!-- END Categories -->
-
-
-      <!-- Newsletter -->
-      <section class="bg-img text-center" style="background-image: url(assets/img/bg-facts.jpg)">
-        <div class="container">
-          <h2><strong>Subscribe</strong></h2>
-          <h6 class="font-alt">Get weekly top new jobs delivered to your inbox</h6>
-          <br><br>
-          <form class="form-subscribe" action="#">
-            <div class="input-group">
-              <input type="text" class="form-control input-lg" placeholder="Your eamil address">
-              <span class="input-group-btn">
-                <button class="btn btn-success btn-lg" type="submit">Subscribe</button>
-              </span>
-            </div>
-          </form>
-        </div>
-      </section>
-      <!-- END Newsletter -->
-
-
     </main>
     <!-- END Main container -->
 
