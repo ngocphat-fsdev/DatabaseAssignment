@@ -1,10 +1,9 @@
 <?php
-  session_start();
-  
+  include('permission.php');
+  // checkLogin();
   if (isset($_POST['loginBtn']))
   {
     include('connectDB.php');
-    include('permission.php');
 
     $username = addslashes($_POST['username']);
     $password = addslashes($_POST['pass']);
@@ -22,12 +21,12 @@
       exit();
     }
 
-    $_SESSION['username'] = $username;
-    $_SESSION['level'] = $row['LEVEL'];
+    $_SESSION['USERNAME'] = $username;
+    $_SESSION['LEVEL'] = $row['LEVEL'];
     // kiem tra phan quyen o day
     sqlsrv_close($conn);
-    header("Location: index-2.php");
-    echo "<script> location.replace('index-2.php');</script>";
+    header("Location: index.php");
+    echo "<script> location.replace('index.php');</script>";
   }
 ?>
 <!DOCTYPE html>

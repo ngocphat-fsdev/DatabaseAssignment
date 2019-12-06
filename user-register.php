@@ -3,10 +3,11 @@
 		echo '<script type="text/javascript">alert("' . $msg . '")</script>';
 		echo "<script> location.replace('user-login.php');</script>";
 	}
+	include('permission.php');
+	checkLogin();
 	if (isset($_POST['SignUpBtn']))
 	{
 		include('connectDB.php');
-		include('permission.php');
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		$birthday = $_POST['birthday'];
