@@ -60,7 +60,7 @@
 			<img src="assets/img/logo.png" alt="">
 			<h1>Log into your account</h1>
 
-			<form action="user-register.php" method="POST">
+			<form action="company-register.php" method="POST">
 
 			<div class="form-group">
 				<div class="input-group">
@@ -93,7 +93,7 @@
 		</div>
 
 		<div class="login-links">
-			<p class="text-center">Already have an account? <a class="txt-brand" href="user-login.html">Login</a></p>
+			<p class="text-center">Already have an account? <a class="txt-brand" href="user-login.php">Login</a></p>
 		</div>
 
 		</main>

@@ -25,6 +25,16 @@
 		);	
 		$stmt = sqlsrv_query($conn, $tsql_callSP, $param);
 		if ($stmt == False) die( print_r( sqlsrv_errors(), true));
+		$tsql_callSP = "SELECT * FROM ACCOUNT WHERE USERNAME = '$username'";
+		$stmt = sqlsrv_query($conn, $tsql_callSP);
+		$row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+		$id = $row['ID'];
+		if ($stmt == False) die( print_r( sqlsrv_errors(), true));
+		$tsql_callSP = "IF (SELECT ID FROM NORMAL_USER WHERE ID = '$id') IS NULL BEGIN
+		DELETE FROM ACCOUNT WHERE ID = '$id'
+		END";
+		$stmt = sqlsrv_query($conn, $tsql_callSP);	
+		if ($stmt == False) die( print_r( sqlsrv_errors(), true));
 		sqlsrv_free_stmt($stmt);
 		sqlsrv_close($conn);
 		phpAlertSuccess("Đăng kí thành công.");

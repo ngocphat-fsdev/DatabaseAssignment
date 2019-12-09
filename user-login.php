@@ -20,7 +20,7 @@
       echo "Username or Password is incorrect!<br />";
       exit();
     }
-
+    $_SESSION['ID'] = $row['ID'];
     $_SESSION['USERNAME'] = $username;
     $_SESSION['LEVEL'] = $row['LEVEL'];
     // kiem tra phan quyen o day
