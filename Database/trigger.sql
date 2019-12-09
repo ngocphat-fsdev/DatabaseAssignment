@@ -45,7 +45,7 @@ end;
 
 
 --check user info
-create trigger check_normal_user_info on NORMAL_USER 
+CREATE trigger check_normal_user_info on NORMAL_USER
 after insert, update
 as
 begin
@@ -54,6 +54,7 @@ begin
 	if @fullname like '%[0-9]%' 
 	begin
 		print 'Invalid name'
+		DELETE FROM ACCOUNT WHERE ID = (SELECT ID FROM inserted);
 		rollback
 	end
 	declare @bdate as date
@@ -61,6 +62,7 @@ begin
 	if DATEDIFF(day,@bdate,getdate()) < 0
 	begin
 		print 'Invalid birthdate'
+		DELETE FROM ACCOUNT WHERE ID = (SELECT ID FROM inserted);
 		rollback
 	end
 end;
@@ -96,3 +98,22 @@ BEGIN
 			WHERE PURCHASE.ID_COMP = COMPANY.ID AND PURCHASE.ID_PACK = PACK.ID)		
 END
 
+CREATE TRIGGER Check_Company_Info ON COMPANY
+AFTER INSERT, UPDATE
+AS
+BEGIN
+	declare @name as varchar(255)
+	set @name = (select NAME from inserted)
+	if @name like '%[0-9]%' 
+		BEGIN
+			print 'wrong format name'
+			rollback
+		END
+	declare @phone as int
+	set @phone = (select PHONENUMBER from inserted)
+	if @phone not like %[0-9]%
+		BEGIN
+		print 'wrong int format'
+		rollback
+		END 
+END

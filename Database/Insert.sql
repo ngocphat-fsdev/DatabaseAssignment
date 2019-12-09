@@ -71,7 +71,7 @@ END
 CREATE PROCEDURE InsertEmployee
 @acc varchar(50),
 @fullname varchar(50),
-@company varchar(50),
+@idcompany INT,
 @isUploader bit
 as
 begin
@@ -174,3 +174,39 @@ begin
 		print 'Error'
 	end catch
 end;
+
+CREATE PROCEDURE InsertCompany (
+@address VARCHAR(255),
+@website VARCHAR(255),
+@name VARCHAR(255),
+@business_field VARCHAR(255),
+@business_type VARCHAR(255),
+@logo VARCHAR(255),
+@phone int,
+@id_account INT
+)
+AS
+BEGIN
+	declare @id as int
+	set @id = (select max(ID) from COMPANY ) + 1
+	if (@id is null) set @id = 1
+	declare @exprired_date as DATE
+	SET @exprired_date = GETDATE();
+	BEGIN Try
+		INSERT INTO COMPANY (ID, ADDRESS, WEBSITE, NAME, BUSINESS_FIELD, BUSINESS_TYPE, EXPIRED_DATE, REMAINING, LOGO, PHONENUMBER, ID_Account) 
+		VALUES (@id, @address, @website, @name, @business_field, @business_type, @exprired_date, 0, @logo, @phone, @id_account);
+		RETURN 1;
+	END Try
+	BEGIN Catch
+		RETURN 0;
+	END Catch
+END
+
+INSERT INTO PACK (ID, PRICE, EXPIRATION, MAX_POST) VALUES (1, 10, 2, 3)
+INSERT INTO PACK (ID, PRICE, EXPIRATION, MAX_POST) VALUES (2, 20, 4, 5)
+INSERT INTO PACK (ID, PRICE, EXPIRATION, MAX_POST) VALUES (3, 40, 8, 7)
+INSERT INTO PACK (ID, PRICE, EXPIRATION, MAX_POST) VALUES (4, 100, 12, 20)
+
+
+
+EXEC InsertCompany 'HCM City','hcmut.edu.vn', 'HCMUT', 'HCM City', 'CSE', 'assets/img/logo-default.png', '09209399', 4
