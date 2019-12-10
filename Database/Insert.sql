@@ -139,7 +139,7 @@ begin
 	declare @uploader as int
 	set @uploader = (select ID from RECRUIT_POST_UPLOADER where ID = @id_uploader)
 	if @uploader is null raiserror('Uploader not exists',20,1) with log
-	if @work_time not like '%_/_%/_%' raiserror ('Invalid time',20,1) with log
+	--if @work_time not like '%_/_%/_%' raiserror ('Invalid time',20,1) with log
 	if @quantity < 0 raiserror ('Quantity false',20,1) with log
 	begin try
 		insert into RECRUIT_POST(ID,WORK_PLACE,POSTION,REQUIREMENT,WORK_TIME,SALARY,QUANTITY,CV_DEADLINE,ID_UPLOADER) values (@recpostId,@work_place,@postion,@requirement,@work_time,@salary,@quantity,@cv_deadline,@uploader)
@@ -209,3 +209,105 @@ INSERT INTO PACK (ID, PRICE, EXPIRATION, MAX_POST) VALUES (4, 100, 12, 20)
 
 
 EXEC InsertCompany 'HCM City','hcmut.edu.vn', 'HCMUT', 'HCM City', 'CSE', 'assets/img/logo-default.png', '09209399', 4
+
+CREATE PROCEDURE RecruitPostInsert
+@RecruitUploaderName	varchar(255),
+@RecruitTitle			varchar(255),
+@RecruitUploadTime		datetime,
+@WorkPlace				varchar(255),
+@Position				varchar(255),
+@Requirement			varchar(255),
+@WorkTime				varchar(255),
+@Salary					int,
+@Quantity				int,
+@CVDeadline				datetime
+AS
+BEGIN
+	BEGIN TRY
+		EXEC PostInsert @UploaderName = @RecruitUploaderName, @Title = @RecruitTitle, @UploadTime = @RecruitUploadTime
+	END TRY
+	BEGIN CATCH
+		RAISERROR('ERROR INSERTING POST', 20, 1) WITH LOG
+	END CATCH
+
+	DECLARE @RecruitPostID as int
+	SET @RecruitPostID = (SELECT MAX(ID) FROM POST)
+
+	DECLARE @UploaderID as int
+	SET @UploaderID = (SELECT ACC_ID FROM POST WHERE ID = @RecruitPostID)
+
+	IF @Salary < 0 RAISERROR('INVALID SALARY', 20, 1) WITH LOG
+	IF @Quantity < 0 RAISERROR('INVALID QUANTITY', 20, 1) WITH LOG
+	--IF @WorkTime NOT LIKE '%_/_%/_%' RAISERROR('INVALID WORK TIME', 20, 1) WITH LOG
+
+	BEGIN TRY
+		INSERT INTO RECRUIT_POST(ID, WORK_PLACE, POSTION, REQUIREMENT, WORK_TIME, SALARY, QUANTITY, CV_DEADLINE, ID_UPLOADER)
+		VALUES (@RecruitPostID, @WorkPlace, @Position, @Requirement, @WorkTime, @Salary, @Quantity, @CVDeadline, @UploaderID)
+	END TRY
+	BEGIN CATCH
+		PRINT 'ERROR INSERTING RECRUIT POST'
+	END CATCH
+END;
+
+alter table SUBMIT_CV ADD CONSTRAINT FK_RPOST_SUBMITCV FOREIGN KEY(ID_RPOST) REFERENCES RECRUIT_POST(ID);
+alter table SUBMIT_CV ADD CONSTRAINT FK_CV_SUBMITCV FOREIGN KEY(ID_CV,ID_USER) REFERENCES CV(ID,ID_USER);
+
+Alter PROCEDURE RecruitPostInsert
+@UploaderID				int,
+@RecruitTitle			varchar(255),
+@WorkPlace				varchar(255),
+@Position				varchar(255),
+@Requiremnent			varchar(255),
+@WorkTime				varchar(255),
+@Salary					int,
+@Quantity				int,
+@CVDeadline				datetime
+AS
+BEGIN
+	DECLARE @RecruitUploadTime as datetime
+	SET @RecruitUploadTime = GETDATE();
+	BEGIN TRY
+		EXEC PostInsert @AccID = @UploaderID, @Title = @RecruitTitle, @UploadTime = @RecruitUploadTime
+	END TRY
+	BEGIN CATCH
+		RAISERROR('ERROR INSERTING POST', 20, 1) WITH LOG
+	END CATCH
+	DECLARE @RecruitPostID as int
+	SET @RecruitPostID = (SELECT MAX(ID) FROM POST)
+
+	IF @Salary < 0 RAISERROR('INVALID SALARY', 20, 1) WITH LOG
+	IF @Quantity < 0 RAISERROR('INVALID QUANTITY', 20, 1) WITH LOG
+	--IF @WorkTime NOT LIKE '%_/_%/_%' RAISERROR('INVALID WORK TIME', 20, 1) WITH LOG
+
+	BEGIN TRY
+		INSERT INTO RECRUIT_POST(ID, WORK_PLACE, POSTION, REQUIREMENT, WORK_TIME, SALARY, QUANTITY, CV_DEADLINE, ID_UPLOADER)
+		VALUES (@RecruitPostID, @WorkPlace, @Position, @Requiremnent, @WorkTime, @Salary, @Quantity, @CVDeadline, @UploaderID)
+	END TRY
+	BEGIN CATCH
+		PRINT 'ERROR INSERTING RECRUIT POST'
+	END CATCH
+END;
+
+CREATE PROCEDURE PostInsert
+@AccID			int,
+@Title			varchar(255),
+@UploadTime		datetime
+AS
+BEGIN
+	DECLARE @PostID as int
+	DECLARE @UploaderName as varchar(255)
+	--DECLARE @AccID as int
+
+	SET @PostID = (SELECT MAX(ID) FROM POST) + 1
+	IF @PostID IS NULL SET @PostID = 1
+
+	SET @UploaderName = (SELECT FULLNAME FROM EMPLOYEE WHERE EMPLOYEE.ID = @AccID)
+	IF @UploaderName IS NULL RAISERROR('Employee not exists', 20, 1) WITH LOG
+
+	BEGIN TRY
+		INSERT INTO POST(ID, ACC_ID, UPLOADER_NAME, TITLE, UPLOAD_TIME) VALUES (@PostID, @AccID, @UploaderName, @Title, @UploadTime)
+	END TRY
+	BEGIN CATCH
+		THROW 
+	END CATCH
+END;
