@@ -1,3 +1,27 @@
+<?php 
+  include 'permission.php';
+  
+  if (isset($_POST['Contact']) && isCompany())
+  {
+    echo '<script language="javascript">alert("$_POST["Contact"])</script>';
+    echo "<script> location.replace('resume-manage.php');</script>";
+    exit;
+  }
+  elseif (isset($_POST['Delete']) && isCompany())
+  {
+    include "connectDB.php";
+
+    $sql = "EXEC deleteCandidate ".$_POST['Delete'];
+    $stmt = sqlsrv_query($conn, $sql, $param);
+    if ($stmt == false){
+      die( print_r( sqlsrv_errors(), true));
+    }
+    sqlsrv_close($conn);
+    echo '<script language="javascript">alert("test contact")</script>';
+    echo "<script> location.replace('resume-manage.php');</script>";
+    exit;
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -141,92 +165,51 @@
             </div>
 
 
+            <?php
+              include "connectDB.php";
+              $sql = "EXEC seeCandidate";
+              $stmt = sqlsrv_query($conn, $sql);
+              if ($stmt){
+                $row = sqlsrv_fetch_array($stmt);
+                while ($row = sqlsrv_fetch_array($stmt)){
+            ?>
             <!-- Resume item -->
-            <div class="col-xs-12">
-              <div class="item-block">
-                <header>
-                  <a href="resume-detail.php"><img class="resume-avatar" src="assets/img/avatar.jpg" alt=""></a>
-                  <div class="hgroup">
-                    <h4><a href="resume-detail.php">John Doe</a></h4>
-                    <h5>Front-end developer</h5>
-                  </div>
-                  <div class="header-meta">
-                    <span class="location">Menlo park, CA</span>
-                    <span class="rate">$55 per hour</span>
-                  </div>
-                </header>
+            <form action="resume-manage.php" method="POST">
+              <div class="col-xs-12">
+                <div class="item-block">
+                  <header>
+                    <a href="resume-detail.php"><img class="resume-avatar" src="assets/img/avatar.jpg" alt=""></a>
+                    <div class="hgroup">
+                      <h4><a href="resume-detail.php">
+                        <?php  echo $row['NORMAL_USER.FULLNAME'];  ?>
+                      </a></h4>
+                      <h5>
+                        <?php echo $row['CV.CARREER_OBJ']; ?>
+                      </h5>
+                    </div>
+                    <div class="header-meta">
+                      <span class="location">Menlo park, CA</span>
+                      <span class="rate">$55 per hour</span>
+                    </div>
+                  </header>
 
-                <footer>
-                  <p class="status"><strong>Updated on:</strong> March 10, 2016</p>
-
-                  <div class="action-btn">
-                    <a class="btn btn-xs btn-gray" href="#">Hide</a>
-                    <a class="btn btn-xs btn-gray" href="#">Edit</a>
-                    <a class="btn btn-xs btn-danger" href="#">Delete</a>
-                  </div>
-                </footer>
+                  <footer>
+                    <p class="status"><strong>Updated on:</strong> March 10, 2016</p>
+                      <div class="action-btn">
+                        <!-- form get du lieu su dung 3 ham edit, delete, lien lac-->
+                        <input type="button" class="btn btn-xs btn-gray" name="Contact"  value=<?php $row['CV.EMAIL'] ?> />
+                        <input type="button" class="btn btn-xs btn-danger" name="Delete" value=<?php $row['CV.ID'] ?> />
+                      </div>
+                  </footer>
+                </div>
               </div>
-            </div>
+            </form>
             <!-- END Resume item -->
-
-
-            <!-- Resume item -->
-            <div class="col-xs-12">
-              <div class="item-block">
-                <header>
-                  <a href="resume-detail.php"><img class="resume-avatar" src="assets/img/avatar.jpg" alt=""></a>
-                  <div class="hgroup">
-                    <h4><a href="resume-detail.php">John Doe</a></h4>
-                    <h5>Full stack developer</h5>
-                  </div>
-                  <div class="header-meta">
-                    <span class="location">Menlo park, CA</span>
-                    <span class="rate">$85 per hour</span>
-                  </div>
-                </header>
-
-                <footer>
-                  <p class="status"><strong>Updated on:</strong> March 03, 2016</p>
-
-                  <div class="action-btn">
-                    <a class="btn btn-xs btn-gray" href="#">Hide</a>
-                    <a class="btn btn-xs btn-gray" href="#">Edit</a>
-                    <a class="btn btn-xs btn-danger" href="#">Delete</a>
-                  </div>
-                </footer>
-              </div>
-            </div>
-            <!-- END Resume item -->
-
-
-            <!-- Resume item -->
-            <div class="col-xs-12">
-              <div class="item-block">
-                <header>
-                  <a href="resume-detail.php"><img class="resume-avatar" src="assets/img/avatar.jpg" alt=""></a>
-                  <div class="hgroup">
-                    <h4><a href="resume-detail.php">John Doe</a></h4>
-                    <h5>PHP developer <span class="label label-info">Hidden</span></h5>
-                  </div>
-                  <div class="header-meta">
-                    <span class="location">Menlo park, CA</span>
-                    <span class="rate">$60 per hour</span>
-                  </div>
-                </header>
-
-                <footer>
-                  <p class="status"><strong>Updated on:</strong> Feb 27, 2016</p>
-
-                  <div class="action-btn">
-                    <a class="btn btn-xs btn-gray" href="#">Show</a>
-                    <a class="btn btn-xs btn-gray" href="#">Edit</a>
-                    <a class="btn btn-xs btn-danger" href="#">Delete</a>
-                  </div>
-                </footer>
-              </div>
-            </div>
-            <!-- END Resume item -->
-
+            <?php 
+                }
+              }
+              sqlsrv_close($conn);
+            ?>
 
           </div>
         </div>

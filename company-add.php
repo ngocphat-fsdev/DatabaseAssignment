@@ -1,22 +1,42 @@
 <?php
-	include 'permission.php';
+  include 'permission.php';
+  if (checkLogout() || !isCompany()) {
+    Header( "HTTP/1.1 301 Moved Permanently" );
+    header('Location: index.php');
+}
 	function phpAlertSuccess($msg) {
 			echo '<script type="text/javascript">alert("' . $msg . '")</script>';
 			echo "<script> location.replace('user-login.php');</script>";
-		}
+    }
+  function phpAlert($msg) {
+			echo '<script type="text/javascript">alert("' . $msg . '")</script>';
+			echo "<script> location.replace('index.php');</script>";
+    }
+    include('connectDB.php');		
+    $id_account = $_SESSION['ID'];
+    $tsql_callSP = "EXEC CheckCompany '$id_account' ";
+		$stmt = sqlsrv_query($conn, $tsql_callSP);
+    $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+    if ($row != NULL) {
+      phpAlert("Đã tạo công ty rồi. Không thể tạo thêm 1 công ty trên cùng 1 tài khoản.");
+      exit();
+    }
 	if (isset($_POST['submitCompany'])){
-		include('connectDB.php');
 		$name = $_POST['txtCompanyName'];
 		$business_type = $_POST['txtHeadline'];
 		$business_field = $_POST['txtField'];
 		$address = $_POST['txtLocation'];
 		$website = $_POST['txtWebsite'];
 		$phone = $_POST['txtPhone'];
-		// $logo = $_FILES["CompanyLogo"]["name"];
-		// $dir = "./assets/img/logo-company/".$name."_logo.png";
-		$logo = "assets/img/logo-default.png";
+		$logo = $_FILES["CompanyLogo"]["name"];
+	    $dir = "./assets/img/logo-company/".$id_account."_logo.jpg";
+		if (move_uploaded_file($_FILES["CompanyLogo"]["tmp_name"], $dir)){
+			$check = TRUE;
+		}
+   		$logo = $dir;
+		// $logo = "assets/img/logo-default.png";
 		$id_account = $_SESSION['ID'];
-		// move_uploaded_file($_FILES["logo"]["tmp_name"], $dir);
+
 		$tsql_callSP = "EXEC InsertCompany ?, ?, ?, ?, ?, ?, ?, ?";
 		$param = array(
 			array($address, SQLSRV_PARAM_IN),
@@ -65,7 +85,7 @@
 	<?php
 		
 		if (isCompany()) {
-			include 'HeaderAdmin-1.php';
+			include 'HeaderCompany-1.php';
 		}
 		else {
             Header( "HTTP/1.1 301 Moved Permanently" );
@@ -74,8 +94,9 @@
 	?>
     <!-- END Navigation bar -->
 
-    <form action="company-add.php" method="POST">
+    <form action="company-add.php" method="POST" enctype="multipart/form-data">
 
+    <!-- <form action="company-add.php" method="POST" > -->
       <!-- Page header -->
       <header class="page-header">
         <div class="container page-name">
@@ -104,7 +125,6 @@
 							<div class="form-group">
 								<textarea class="form-control" rows="3" name="txtField" placeholder="PHP, Python,..."></textarea>
 							</div>
-
 							<div class="form-group">
 								<!-- <span class="input-group-addon"><i class="fa fa-map-marker"></i></span> -->
 								<input type="text" class="form-control" name="txtLocation" placeholder="Location, e.g. Melon Park, CA">
@@ -162,8 +182,6 @@
           </div>
         </section>
         <!-- END Submit -->
-
-
       </main>
       <!-- END Main container -->
 

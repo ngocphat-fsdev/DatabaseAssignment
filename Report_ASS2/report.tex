@@ -1,0 +1,282 @@
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{vietnam}
+
+%\usepackage{vntex}
+
+%\usepackage[english,vietnam]{babel}
+%\usepackage[utf8]{inputenc}
+
+%\usepackage[utf8]{inputenc}
+%\usepackage[francais]{babel}
+\usepackage{a4wide,amssymb,epsfig,latexsym,multicol,array,hhline,fancyhdr}
+
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{lastpage}
+\usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}							
+% Standard graphics package
+\usepackage{array}
+\usepackage{tabularx, caption}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{rotating}
+\usepackage{graphics}
+\usepackage[a4paper,left=2cm,right=2cm,top=1.8cm,bottom=2.8cm]{geometry}
+\usepackage{setspace}
+\usepackage{epsfig}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\newcommand\HRule{\rule{\textwidth}{1pt}}
+\usetikzlibrary{arrows,snakes,backgrounds}
+\usepackage[unicode]{hyperref}
+%can file puenc.def trong thu muc goc de option [unicode] tao ra bookmark bang tieng Viet
+\hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true} 
+%\usepackage{pstcol} 								
+% PSTricks with the standard color package
+
+\newtheorem{theorem}{{\bf Theorem}}
+\newtheorem{property}{{\bf Property}}
+\newtheorem{proposition}{{\bf Proposition}}
+\newtheorem{corollary}[proposition]{{\bf Corollary}}
+\newtheorem{lemma}[proposition]{{\bf Lemma}}
+
+%\usepackage{fancyhdr}
+\setlength{\headheight}{40pt}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[L]{
+	\begin{tabular}{rl}
+		\begin{picture}(25,15)(0,0)
+		\put(0,-8){\includegraphics[width=8mm, height=8mm]{img/hcmut.png}}
+		%\put(0,-8){\epsfig{width=10mm,figure=hcmut.eps}}
+		\end{picture}&
+		%\includegraphics[width=8mm, height=8mm]{hcmut.png} & %
+		\begin{tabular}{l}
+			\textbf{\bf \ttfamily Trường Đại học Bách Khoa - Đại học Quốc gia Thành phố Hồ Chí Minh}\\
+			\textbf{\bf \ttfamily Khoa Khoa học và Kỹ thuật Máy tính}
+		\end{tabular} 	
+	\end{tabular}
+}
+\fancyhead[R]{
+	\begin{tabular}{l}
+		\tiny \bf \\
+		\tiny \bf 
+\end{tabular}  }
+\fancyfoot{} % clear all footer fields
+\fancyfoot[L]{\scriptsize \ttfamily Assignment 2 - Hệ cơ sở dữ liệu, 2019-2020}
+\fancyfoot[R]{\scriptsize \ttfamily Trang {\thepage}/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+
+%%%
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\makeatletter
+\newcounter {subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@alph\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+	{-3.25ex\@plus -1ex \@minus -.2ex}%
+	{1.5ex \@plus .2ex}%
+	{\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+\makeatother
+
+
+\begin{document}
+	
+\begin{titlepage}
+	\begin{tikzpicture}[remember picture, overlay]
+	\draw[line width = 3pt,color=blue] ($(current page.north west) + (2.2cm,-2.2cm)$) rectangle ($(current page.south east) + (-2.2cm,2.2cm)$);
+	\draw[line width = 2pt,color=green] ($(current page.north west) + (2cm,-2cm)$) rectangle ($(current page.south east) + (-2cm,2cm)$);
+	\end{tikzpicture}
+	\vspace{1.5cm}
+	\begin{center} \large
+		ĐẠI HỌC BÁCH KHOA - ĐẠI HỌC QUỐC GIA TP HỒ CHÍ MINH \\
+		\textbf{KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH} \\
+		- - - - - - - - - - - - - - - - - - - - - 
+	\end{center}
+	
+	
+	\vspace{1cm}
+	\begin{figure}[h!]
+		\begin{center}
+			\includegraphics[width=3.6cm]{img/hcmut.png}
+		\end{center}
+	\end{figure}
+	\vspace{1cm}
+	
+	
+	
+	\begin{center}
+		\begin{tabular}{c}
+			\multicolumn{1}{c}{\textbf{{\Huge HỆ CƠ SỞ DỮ LIỆU}}}\\
+			\\ \hline \\
+			\textbf{{\Large Assignment 1}}\\
+			\\
+			\textbf{{\large Topic 2: Design database for a recruitment system }}\\
+			\textbf{{\large like Itviec.com, vietnamworks.com, etc. }}\\
+			\\ \hline \\
+		\end{tabular}
+	\end{center}
+	\begin{table}[h]
+		\begin{tabular}{rrlrr}
+			\hspace{5cm} 
+			& {\large Giảng viên hướng dẫn}: & {\large Trương Quỳnh Chi} & & \\
+			& {\large Lớp}: & {\large L05} & & \\
+			& {\large Sinh viên}: & {\large 1710228 - Nguyễn Ngọc Phát } \\
+			& {} & {\large 1710148 - Cao Minh Khôi } \\
+			& {} & {\large 1710158 - Trần Chí Kiệt } \\
+			& {} & {\large 1710188 - Cao Nguyệt Minh} \\
+			& {} & {\large 1714075 - Cao Ngọc Xuân Yến} \\
+		\end{tabular}
+	\end{table}
+	
+	\vspace{3cm}
+	
+	\begin{center}
+		{\footnotesize Thành phố Hồ Chí Minh, 12/2019}
+	\end{center}
+	
+\end{titlepage}
+	
+	
+	%\thispagestyle{empty}
+	\newpage
+	\tableofcontents
+	\newpage
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Phần chung}
+	\subsection{Các câu lệnh tạo bảng và ràng buộc}
+	\subsection{Các câu lệnh tạo chỉ mục}
+	\subsection{Các câu lệnh insert dữ liệu (nếu có)}
+	$\indent$
+	\section{Phần riêng}
+	\subsection{Thành viên 1}
+	\textbf{$\indent$Thành viên 1: \\
+			$\indent$Họ tên: Cao Nguyệt Minh \\ 	$\indent$MSSV: 1710188}
+	$\indent$
+	\subsubsection{Thủ tục insert dữ liệu:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo thủ tục\\
+	$\indent$Câu lệnh thực thi thủ tục mẫu: \\
+	\subsubsection{Trigger:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo Trigger\\
+	$\indent$Câu lệnh kiểm tra trigger hoạt động: \\
+	\subsubsection{Thủ tục chứa câu SQL:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo thủ tục\\
+	$\indent$Câu lệnh thực thi thủ tục: \\
+	\subsubsection{Hàm:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo hàm\\
+	$\indent$Câu lệnh SELECT minh họa gọi hàm: \\
+	\subsubsection{Giao diện ứng dụng và các hình ảnh minh họa:}
+	$\indent$Giao diện\\
+	\newpage
+	\subsection{Thành viên 2}
+	\textbf{$\indent$Thành viên 2: \\
+	$\indent$Họ tên: Nguyễn Ngọc Phát \\ 	$\indent$MSSV: 1710228}
+	$\indent$
+	\subsubsection{Thủ tục insert dữ liệu:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo thủ tục\\
+	$\indent$Câu lệnh thực thi thủ tục mẫu: \\
+	\subsubsection{Trigger:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo Trigger\\
+	$\indent$Câu lệnh kiểm tra trigger hoạt động: \\
+	\subsubsection{Thủ tục chứa câu SQL:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo thủ tục\\
+	$\indent$Câu lệnh thực thi thủ tục: \\
+	\subsubsection{Hàm:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo hàm\\
+	$\indent$Câu lệnh SELECT minh họa gọi hàm: \\
+	\subsubsection{Giao diện ứng dụng và các hình ảnh minh họa:}
+	$\indent$Giao diện\\
+	\newpage
+	\subsection{Thành viên 3}
+	\textbf{$\indent$Thành viên 3: \\
+	$\indent$Họ tên: Trần Chí Kiệt \\ 	$\indent$MSSV: }
+	$\indent$
+	\subsubsection{Thủ tục insert dữ liệu:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo thủ tục\\
+	$\indent$Câu lệnh thực thi thủ tục mẫu: \\
+	\subsubsection{Trigger:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo Trigger\\
+	$\indent$Câu lệnh kiểm tra trigger hoạt động: \\
+	\subsubsection{Thủ tục chứa câu SQL:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo thủ tục\\
+	$\indent$Câu lệnh thực thi thủ tục: \\
+	\subsubsection{Hàm:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo hàm\\
+	$\indent$Câu lệnh SELECT minh họa gọi hàm: \\
+	\subsubsection{Giao diện ứng dụng và các hình ảnh minh họa:}
+	$\indent$Giao diện\\
+	\newpage
+	\subsection{Thành viên 3}
+	\textbf{$\indent$Thành viên 4: \\
+		$\indent$Họ tên:  \\ 	$\indent$MSSV: }
+	$\indent$
+	\subsubsection{Thủ tục insert dữ liệu:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo thủ tục\\
+	$\indent$Câu lệnh thực thi thủ tục mẫu: \\
+	\subsubsection{Trigger:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo Trigger\\
+	$\indent$Câu lệnh kiểm tra trigger hoạt động: \\
+	\subsubsection{Thủ tục chứa câu SQL:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo thủ tục\\
+	$\indent$Câu lệnh thực thi thủ tục: \\
+	\subsubsection{Hàm:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo hàm\\
+	$\indent$Câu lệnh SELECT minh họa gọi hàm: \\
+	\subsubsection{Giao diện ứng dụng và các hình ảnh minh họa:}
+	$\indent$Giao diện\\
+	\newpage
+	\subsection{Thành viên 5}
+	\textbf{$\indent$Thành viên 5: \\
+		$\indent$Họ tên: \\ 	$\indent$MSSV: }
+	\subsubsection{Thủ tục insert dữ liệu:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo thủ tục\\
+	$\indent$Câu lệnh thực thi thủ tục mẫu: \\
+	\subsubsection{Trigger:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo Trigger\\
+	$\indent$Câu lệnh kiểm tra trigger hoạt động: \\
+	\subsubsection{Thủ tục chứa câu SQL:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo thủ tục\\
+	$\indent$Câu lệnh thực thi thủ tục: \\
+	\subsubsection{Hàm:}
+	$\indent$Mô tả chức năng\\
+	$\indent$Câu lệnh tạo hàm\\
+	$\indent$Câu lệnh SELECT minh họa gọi hàm: \\
+	\subsubsection{Giao diện ứng dụng và các hình ảnh minh họa:}
+	$\indent$Giao diện\\
+	\section{Phụ lục}
+	\subsection{Báo cáo bài tập lớn 1}
+	\subsection{Source code chương trình:}
+	\subsection{Bảng phân công nhiệm vụ cho phần chung và bài tập lớn số 1}
+	\newpage
+	\section{Ánh xạ sang lược đồ CSDL}
+
+\end{document}
+

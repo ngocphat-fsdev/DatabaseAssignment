@@ -24,8 +24,7 @@
             </a>
 
             <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href="employer-register.php">Registry Employer</a></li>
-              <li><a href="poster-forget-pass.php">Registry Poster</a></li>
+              <li><a href="employee-register.php">Registry Employee</a></li>
               <li><a href="user-logout.php">Logout</a></li>
             </ul>
           </div>

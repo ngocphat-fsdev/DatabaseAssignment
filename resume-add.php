@@ -1,3 +1,29 @@
+<?php
+  include 'permission.php';
+  if (isset($_POST['submitResume']) && isUser())
+  {
+    include "connectDB.php";
+
+    $name = addslashes($_POST['name']);
+    $email = addslashes($_POST['email']);
+    $exp_field = addslashes($_POST['exp_field']);
+    $time_accum = addslashes($_POST['time_accum']);
+    $career_obj = addslashes($_POST['career_obj']);
+    
+
+    $sql = "EXEC InsertCV @userId = ?, @email = ?, @career_obj = ?, @exp_field = ?, @time_accum = ?";
+    $param = array($_SESSION['ID'], $email, $career_obj, $exp_field, $time_accum);
+
+    $stmt = sqlsrv_query($conn, $sql, $param);
+    if ($stmt == false){
+      die( print_r( sqlsrv_errors(), true));
+    }
+    sqlsrv_close($conn);
+    echo '<script language="javascript">alert("CV nộp thành công")</script>';
+    echo "<script> location.replace('resume-add.php');</script>";
+    exit;
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,102 +50,13 @@
 
   <body class="nav-on-header smart-nav">
 
-    <!-- Navigation bar -->
-    <nav class="navbar">
-      <div class="container">
+    <?php 
+      //if (isAdmin()){
+        include "HeaderUser.php";
+      //}
+    ?>
 
-        <!-- Logo -->
-        <div class="pull-left">
-          <a class="navbar-toggle" href="#" data-toggle="offcanvas"><i class="ti-menu"></i></a>
-
-          <div class="logo-wrapper">
-            <a class="logo" href="index.php"><img src="assets/img/logo.png" alt="logo"></a>
-            <a class="logo-alt" href="index.php"><img src="assets/img/logo-alt.png" alt="logo-alt"></a>
-          </div>
-
-        </div>
-        <!-- END Logo -->
-
-        <!-- User account -->
-        <div class="pull-right">
-
-          <div class="dropdown user-account">
-            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-              <img src="assets/img/logo-envato.png" alt="avatar">
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href="user-login.php">Login</a></li>
-              <li><a href="user-register.php">Register</a></li>
-              <li><a href="user-forget-pass.php">Forget pass</a></li>
-              <li><a href="#">Logout</a></li>
-            </ul>
-          </div>
-
-        </div>
-        <!-- END User account -->
-
-        <!-- Navigation menu -->
-        <ul class="nav-menu">
-          <li>
-            <a href="index.php">Home</a>
-            <ul>
-              <li><a href="index.php">Version 1</a></li>
-              <li><a href="index-2.php">Version 2</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Position</a>
-            <ul>
-              <li><a href="job-list-1.php">Browse jobs - 1</a></li>
-              <li><a href="job-list-2.php">Browse jobs - 2</a></li>
-              <li><a href="job-list-3.php">Browse jobs - 3</a></li>
-              <li><a href="job-detail.php">Job detail</a></li>
-              <li><a href="job-apply.php">Apply for job</a></li>
-              <li><a href="job-add.php">Post a job</a></li>
-              <li><a href="job-manage.php">Manage jobs</a></li>
-              <li><a href="job-candidates.php">Candidates</a></li>
-            </ul>
-          </li>
-          <li>
-            <a class="active" href="#">Resume</a>
-            <ul>
-              <li><a href="resume-list.php">Browse resumes</a></li>
-              <li><a href="resume-detail.php">Resume detail</a></li>
-              <li><a class="active" href="resume-add.php">Create a resume</a></li>
-              <li><a href="resume-manage.php">Manage resumes</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Company</a>
-            <ul>
-              <li><a href="company-list.php">Browse companies</a></li>
-              <li><a href="company-detail.php">Company detail</a></li>
-              <li><a href="company-add.php">Create a company</a></li>
-              <li><a href="company-manage.php">Manage companies</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Pages</a>
-            <ul>
-              <li><a href="page-blog.php">Blog</a></li>
-              <li><a href="page-post.php">Blog-post</a></li>
-              <li><a href="page-about.php">About</a></li>
-              <li><a href="page-contact.php">Contact</a></li>
-              <li><a href="page-faq.php">FAQ</a></li>
-              <li><a href="page-pricing.php">Pricing</a></li>
-              <li><a href="page-typography.php">Typography</a></li>
-              <li><a href="page-ui-elements.php">UI elements</a></li>
-            </ul>
-          </li>
-        </ul>
-        <!-- END Navigation menu -->
-
-      </div>
-    </nav>
-    <!-- END Navigation bar -->
-
-    <form action="#">
+    <form action="resume-add.php" method="POST">
 
       <!-- Page header -->
       <header class="page-header">
@@ -140,93 +77,28 @@
 
             <div class="col-xs-12 col-sm-8">
               <div class="form-group">
-                <input type="text" class="form-control input-lg" placeholder="Name">
-              </div>
-              
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Headline (e.g. Front-end developer)">
+                <input name="name" type="text" class="form-control input-lg" placeholder="Name">
               </div>
 
               <div class="form-group">
-                <textarea class="form-control" rows="3" placeholder="Short description about you"></textarea>
+                <input name="email" type="text" class="form-control input-lg" placeholder="Email">
               </div>
 
-              <hr class="hr-lg">
-
-              <h6>Basic information</h6>
-              <div class="row">
-
-                <div class="form-group col-xs-12 col-sm-6">
-                  <div class="input-group input-group-sm">
-                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                    <input type="text" class="form-control" placeholder="Location, e.g. Melon Park, CA">
-                  </div>
-                </div>
-
-                <div class="form-group col-xs-12 col-sm-6">
-                  <div class="input-group input-group-sm">
-                    <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                    <input type="text" class="form-control" placeholder="Website address">
-                  </div>
-                </div>
-
-                <div class="form-group col-xs-12 col-sm-6">
-                  <div class="input-group input-group-sm">
-                    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                    <input type="text" class="form-control" placeholder="Salary, e.g. 85">
-                    <span class="input-group-addon">Per hour</span>
-                  </div>
-                </div>
-
-                <div class="form-group col-xs-12 col-sm-6">
-                  <div class="input-group input-group-sm">
-                    <span class="input-group-addon"><i class="fa fa-birthday-cake"></i></span>
-                    <input type="text" class="form-control" placeholder="Age">
-                    <span class="input-group-addon">Years old</span>
-                  </div>
-                </div>
-
-                <div class="form-group col-xs-12 col-sm-6">
-                  <div class="input-group input-group-sm">
-                    <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                    <input type="text" class="form-control" placeholder="Phone number">
-                  </div>
-                </div>
-
-                <div class="form-group col-xs-12 col-sm-6">
-                  <div class="input-group input-group-sm">
-                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                    <input type="text" class="form-control" placeholder="Email address">
-                  </div>
-                </div>
-
-              </div>
-
-              <hr class="hr-lg">
-
-              <h6>Tags list</h6>
               <div class="form-group">
-                <input type="text" value="HTML,CSS,Javascript" data-role="tagsinput" placeholder="Tag name">
-                <span class="help-block">Write tag name and press enter</span>
+                <input name="exp_field" type="text" class="form-control" placeholder="Experience field">
+              </div>
+
+              <div class="form-group">
+                <input name="career_obj" type="text" class="form-control" placeholder="Career Objective">
+              </div>
+
+              <div class="form-group">
+                <input name="time_accum"type="text" class="form-control" placeholder="Time accumulate">
               </div>
 
             </div>
           </div>
 
-          <div class="button-group">
-            <div class="action-buttons">
-
-              <div class="upload-button">
-                <button class="btn btn-block btn-gray">Choose a resume file</button>
-                <input type="file">
-              </div>
-
-              <div class="upload-button">
-                <button class="btn btn-block btn-primary">Choose a cover image</button>
-                <input id="cover_img_file" type="file">
-              </div>
-
-            </div>
           </div>
         </div>
       </header>
@@ -235,392 +107,6 @@
 
       <!-- Main container -->
       <main>
-
-
-        <!-- Social media -->
-        <section>
-          <div class="container">
-
-            <header class="section-header">
-              <span>Get connected</span>
-              <h2>Social media</h2>
-            </header>
-
-            <div class="row">
-              <div class="col-xs-12 col-sm-6">
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-facebook"></i></span>
-                    <input type="text" class="form-control" placeholder="Profile URL">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-google-plus"></i></span>
-                    <input type="text" class="form-control" placeholder="Profile URL">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-dribbble"></i></span>
-                    <input type="text" class="form-control" placeholder="Profile URL">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-pinterest"></i></span>
-                    <input type="text" class="form-control" placeholder="Profile URL">
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xs-12 col-sm-6">
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
-                    <input type="text" class="form-control" placeholder="Profile URL">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-github"></i></span>
-                    <input type="text" class="form-control" placeholder="Profile URL">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-instagram"></i></span>
-                    <input type="text" class="form-control" placeholder="Profile URL">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-youtube"></i></span>
-                    <input type="text" class="form-control" placeholder="Profile URL">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </section>
-        <!-- Social media -->
-
-
-
-        <!-- Education -->
-        <section class=" bg-alt">
-          <div class="container">
-
-            <header class="section-header">
-              <span>Latest degrees</span>
-              <h2>Education</h2>
-            </header>
-            
-            <div class="row">
-
-              <div class="col-xs-12">
-                <div class="item-block">
-                  <div class="item-form">
-  
-                    <button class="btn btn-danger btn-float btn-remove"><i class="ti-close"></i></button>
-
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-4">
-                        <div class="form-group">
-                          <input type="file" class="dropify" data-default-file="assets/img/logo-default.png">
-                          <span class="help-block">Please choose a square logo</span>
-                        </div>
-                      </div>
-
-                      <div class="col-xs-12 col-sm-8">
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Degree, e.g. Bachelor">
-                        </div>
-
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Major, e.g. Computer Science">
-                        </div>
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="School name, e.g. Massachusetts Institute of Technology">
-                        </div>
-
-                        <div class="form-group">
-                          <div class="input-group">
-                            <span class="input-group-addon">Date from</span>
-                            <input type="text" class="form-control" placeholder="e.g. 2012">
-                            <span class="input-group-addon">Date to</span>
-                            <input type="text" class="form-control" placeholder="e.g. 2016">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <textarea class="form-control" rows="3" placeholder="Short description"></textarea>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xs-12 duplicateable-content">
-                <div class="item-block">
-                  <div class="item-form">
-  
-                    <button class="btn btn-danger btn-float btn-remove"><i class="ti-close"></i></button>
-
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-4">
-                        <div class="form-group">
-                          <input type="file" class="dropify" data-default-file="assets/img/logo-default.png">
-                          <span class="help-block">Please choose a square logo</span>
-                        </div>
-                      </div>
-
-                      <div class="col-xs-12 col-sm-8">
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Degree, e.g. Bachelor">
-                        </div>
-
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Major, e.g. Computer Science">
-                        </div>
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="School name, e.g. Massachusetts Institute of Technology">
-                        </div>
-
-                        <div class="form-group">
-                          <div class="input-group">
-                            <span class="input-group-addon">Date from</span>
-                            <input type="text" class="form-control" placeholder="e.g. 2012">
-                            <span class="input-group-addon">Date to</span>
-                            <input type="text" class="form-control" placeholder="e.g. 2016">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <textarea class="form-control" rows="3" placeholder="Short description"></textarea>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xs-12 text-center">
-                <br>
-                <button class="btn btn-primary btn-duplicator">Add education</button>
-              </div>
-
-
-            </div>
-          </div>
-        </section>
-        <!-- END Education -->
-
-
-        <!-- Work Experience -->
-        <section>
-          <div class="container">
-            <header class="section-header">
-              <span>Past positions</span>
-              <h2>Work Experience</h2>
-            </header>
-            
-            <div class="row">
-
-              <div class="col-xs-12">
-                <div class="item-block">
-                  <div class="item-form">
-  
-                    <button class="btn btn-danger btn-float btn-remove"><i class="ti-close"></i></button>
-
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-4">
-                        <div class="form-group">
-                          <input type="file" class="dropify" data-default-file="assets/img/logo-default.png">
-                          <span class="help-block">Please choose a square logo</span>
-                        </div>
-                      </div>
-
-                      <div class="col-xs-12 col-sm-8">
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Company name">
-                        </div>
-
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Position, e.g. UI/UX Researcher">
-                        </div>
-
-                        <div class="form-group">
-                          <div class="input-group">
-                            <span class="input-group-addon">Date from</span>
-                            <input type="text" class="form-control" placeholder="e.g. 2012">
-                            <span class="input-group-addon">Date to</span>
-                            <input type="text" class="form-control" placeholder="e.g. 2016">
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div class="col-xs-12">
-                        <div class="form-group">
-                          <textarea class="summernote-editor"></textarea>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xs-12 duplicateable-content">
-                <div class="item-block">
-                  <div class="item-form">
-  
-                    <button class="btn btn-danger btn-float btn-remove"><i class="ti-close"></i></button>
-
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-4">
-                        <div class="form-group">
-                          <input type="file" class="dropify" data-default-file="assets/img/logo-default.png">
-                          <span class="help-block">Please choose a square logo</span>
-                        </div>
-                      </div>
-
-                      <div class="col-xs-12 col-sm-8">
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Company name">
-                        </div>
-
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Position, e.g. UI/UX Researcher">
-                        </div>
-
-                        <div class="form-group">
-                          <div class="input-group">
-                            <span class="input-group-addon">Date from</span>
-                            <input type="text" class="form-control" placeholder="e.g. 2012">
-                            <span class="input-group-addon">Date to</span>
-                            <input type="text" class="form-control" placeholder="e.g. 2016">
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div class="col-xs-12">
-                        <div class="form-group">
-                          <textarea class="summernote-editor"></textarea>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xs-12 text-center">
-                <br>
-                <button class="btn btn-primary btn-duplicator">Add experience</button>
-              </div>
-
-
-            </div>
-
-          </div>
-        </section>
-        <!-- END Work Experience -->
-
-
-        <!-- Skills -->
-        <section class=" bg-alt">
-          <div class="container">
-            <header class="section-header">
-              <span>Expertise Areas</span>
-              <h2>Skills</h2>
-            </header>
-            
-            <div class="row">
-
-              <div class="col-xs-12">
-                <div class="item-block">
-                  <div class="item-form">
-  
-                    <button class="btn btn-danger btn-float btn-remove"><i class="ti-close"></i></button>
-
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-6">
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Skill name, e.g. HTML">
-                        </div>
-                      </div>
-
-                      <div class="col-xs-12 col-sm-6">
-
-                        <div class="form-group">
-                          <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Skill proficiency, e.g. 90">
-                            <span class="input-group-addon">%</span>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xs-12 duplicateable-content">
-                <div class="item-block">
-                  <div class="item-form">
-  
-                    <button class="btn btn-danger btn-float btn-remove"><i class="ti-close"></i></button>
-
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-6">
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Skill name, e.g. HTML">
-                        </div>
-                      </div>
-
-                      <div class="col-xs-12 col-sm-6">
-
-                        <div class="form-group">
-                          <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Skill proficiency, e.g. 90">
-                            <span class="input-group-addon">%</span>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xs-12 text-center">
-                <br>
-                <button class="btn btn-primary btn-duplicator">Add experience</button>
-              </div>
-
-
-            </div>
-
-          </div>
-        </section>
-        <!-- END Skills -->
-
-
 
         <!-- Submit -->
         <section class=" bg-img" style="background-image: url(assets/img/bg-facts.jpg);">
@@ -631,7 +117,7 @@
               <p>Please review your information once more and press the below button to put your resume online.</p>
             </header>
 
-            <p class="text-center"><button class="btn btn-success btn-xl btn-round">Submit your resume</button></p>
+            <p class="text-center"><button class="btn btn-success btn-xl btn-round" name="submitResume">Submit your resume</button></p>
 
           </div>
         </section>

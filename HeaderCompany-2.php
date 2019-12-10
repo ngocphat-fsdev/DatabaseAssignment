@@ -1,6 +1,4 @@
-
-    <!-- Navigation bar -->
-    <nav class="navbar">
+<nav class="navbar">
       <div class="container">
 
         <!-- Logo -->
@@ -16,31 +14,18 @@
         <!-- END Logo -->
 
         <!-- User account -->
-        <div class="pull-right">
-
-          <div class="dropdown user-account">
-            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-              <img src="assets/img/logo-envato.png" alt="avatar">
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href="company-register.php">Registry Company</a></li>
-              <li><a href="pack-add.php">Add Pack</a></li>
-              <li><a href="user-logout.php">Logout</a></li>
-
-            </ul>
-          </div>
-
-        </div>
+        <!-- <div class="pull-right user-login">
+          <a class="btn btn-sm btn-primary" href="user-login.php">Login</a> or <a href="user-register.php">register</a>
+        </div> -->
         <!-- END User account -->
 
         <!-- Navigation menu -->
         <ul class="nav-menu">
           <li>
-            <a class="active" href="index.php">Home</a>
+            <a href="index.php">Home</a>
             <ul>
               <li><a href="index.php">Version 1</a></li>
-              <li><a class="active" href="index-2.php">Version 2</a></li>
+              <li><a href="index-2.php">Version 2</a></li>
             </ul>
           </li>
           <li>
@@ -66,10 +51,10 @@
             </ul>
           </li>
           <li>
-            <a href="#">Company</a>
+            <a class="active" href="#">Company</a>
             <ul>
               <li><a href="company-list.php">Browse companies</a></li>
-              <li><a href="company-detail.php">Company detail</a></li>
+              <li><a class="active" href="company-detail.php">Company detail</a></li>
               <li><a href="company-add.php">Create a company</a></li>
               <li><a href="company-manage.php">Manage companies</a></li>
             </ul>
@@ -92,32 +77,3 @@
 
       </div>
     </nav>
-    <!-- END Navigation bar -->
-
-
-    <!-- Site header -->
-    <header class="site-header size-lg text-center" style="background-image: url(assets/img/bg-banner1.jpg)">
-      <div class="container">
-        <div class="col-xs-12">
-          <br><br>
-          <h2>We offer <mark>1,259</mark> job vacancies right now!</h2>
-          <h5 class="font-alt">Find your desire one in a minute</h5>
-          <br><br><br>
-          <form class="header-job-search">
-            <div class="input-keyword">
-              <input type="text" class="form-control" placeholder="Job title, skills, or company">
-            </div>
-
-            <div class="input-location">
-              <input type="text" class="form-control" placeholder="City, state or zip">
-            </div>
-
-            <div class="btn-search">
-              <button class="btn btn-primary" type="submit">Find jobs</button>
-              <a href="">Advanced Job Search</a>
-            </div>
-          </form>
-        </div>
-
-      </div>
-    </header>
