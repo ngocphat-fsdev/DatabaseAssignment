@@ -69,16 +69,17 @@ END
 
 -- Insert Employee
 CREATE PROCEDURE InsertEmployee
-@acc varchar(50),
+@accountId INT,
 @fullname varchar(50),
-@idcompany INT,
+@companyId INT,
 @isUploader bit
 as
 begin
-	declare @accId as int
-	set @accId = (select ID from ACCOUNT where USERNAME = @acc)
-	if @accID is null RAISERROR('Account not exists',20,1) with log
-	if not exists (select NAME from COMPANY where NAME = @company) 
+	if not exists (select ID from ACCOUNT where ID = @accountId) 
+	begin
+		RAISERROR('Account not exists',20,1) with log
+	end
+	if not exists (select ID from COMPANY where ID = @companyId) 
 	begin
 		RAISERROR('Company not exists',20,1) with log
 	end
@@ -86,12 +87,10 @@ begin
 	begin
 		RAISERROR('Name not suitable',20,1) with log
 	end
-	declare @companyId as int
-	set @companyId = (select ID from COMPANY where NAME = @company)
 	begin try
-		insert into EMPLOYEE(ID,FULLNAME,ID_COMPANY) values (@accId,@fullname,@companyId)
-		if @isUploader = 0 insert into EMPLOYER values (@accId)
-		else insert into RECRUIT_POST_UPLOADER values (@accId)
+		insert into EMPLOYEE (ID,FULLNAME,ID_COMPANY) values (@accountId, @fullname, @companyId)
+		if @isUploader = 0 insert into EMPLOYER values (@accountId)
+		else insert into RECRUIT_POST_UPLOADER values (@accountId)
 	end try
 	begin catch
 		print 'Please CREATE a new account for this employee first'
