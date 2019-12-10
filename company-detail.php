@@ -12,7 +12,7 @@
 		$row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
 	}
 	if (isset($_GET['id_account'])){
-		$company_id = $_GET['id'];
+		$company_id = $_GET['id_account'];
 		$tsql_callSP = "EXEC findCompaniesDetails '$company_id' ";
 		$stmt = sqlsrv_query($conn, $tsql_callSP);
 		$row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
