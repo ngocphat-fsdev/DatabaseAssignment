@@ -1,11 +1,27 @@
 <?php
-	include 'permission.php';
+  include 'permission.php';
+  if (checkLogout() || !isCompany()) {
+    Header( "HTTP/1.1 301 Moved Permanently" );
+    header('Location: index.php');
+}
 	function phpAlertSuccess($msg) {
 			echo '<script type="text/javascript">alert("' . $msg . '")</script>';
 			echo "<script> location.replace('user-login.php');</script>";
-		}
+    }
+  function phpAlert($msg) {
+			echo '<script type="text/javascript">alert("' . $msg . '")</script>';
+			echo "<script> location.replace('index.php');</script>";
+    }
+    include('connectDB.php');		
+    $id_account = $_SESSION['ID'];
+    $tsql_callSP = "EXEC CheckCompany '$id_account' ";
+		$stmt = sqlsrv_query($conn, $tsql_callSP);
+    $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+    if ($row != NULL) {
+      phpAlert("Đã tạo công ty rồi. Không thể tạo thêm 1 công ty trên cùng 1 tài khoản.");
+      exit();
+    }
 	if (isset($_POST['submitCompany'])){
-		include('connectDB.php');
 		$name = $_POST['txtCompanyName'];
 		$business_type = $_POST['txtHeadline'];
 		$business_field = $_POST['txtField'];
@@ -65,7 +81,7 @@
 	<?php
 		
 		if (isCompany()) {
-			include 'HeaderAdmin-1.php';
+			include 'HeaderCompany-1.php';
 		}
 		else {
             Header( "HTTP/1.1 301 Moved Permanently" );

@@ -4,12 +4,12 @@
     $connectionInfo = array("Database"=>"ASSIGNMENT2_DS");
     $conn = sqlsrv_connect($serverName, $connectionInfo);
     
-    if ($conn){
-        echo "Connection ok.<br />";
-    }
-    else{
-        echo "Connection not ok.<br />";
-    }
+    // if ($conn){
+    //     echo "Connection ok.<br />";
+    // }
+    // else{
+    //     echo "Connection not ok.<br />";
+    // }
     
 
     /*$sql = "SELECT * FROM ACCOUNT"; 

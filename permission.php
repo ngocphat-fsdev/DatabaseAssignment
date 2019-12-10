@@ -66,17 +66,19 @@
 
     function checkLogin(){
         //Da dang nhap thi chuyen huong
-        if (isset($_SESSION['username'])){
+        if (isset($_SESSION['USERNAME'])){
             Header( "HTTP/1.1 301 Moved Permanently" );
-            header('Location: index-2.php');
+            header('Location: index.php');
         }
     }
 
     function checkLogout(){
         //Chua dang nhap thi chuyen huong
-        if (!isset($_SESSION['username'])){
+        if (!isset($_SESSION['USERNAME'])){
             Header( "HTTP/1.1 301 Moved Permanently" );
             header('Location: index.php');
+            return true;
         }
+        return false;
     }
 ?>
