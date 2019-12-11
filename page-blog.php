@@ -1,3 +1,6 @@
+<?php
+  include 'permission.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,87 +26,9 @@
 
   <body class="nav-on-header smart-nav">
 
-    <!-- Navigation bar -->
-    <nav class="navbar">
-      <div class="container">
-
-        <!-- Logo -->
-        <div class="pull-left">
-          <a class="navbar-toggle" href="#" data-toggle="offcanvas"><i class="ti-menu"></i></a>
-
-          <div class="logo-wrapper">
-            <a class="logo" href="index.php"><img src="assets/img/logo.png" alt="logo"></a>
-            <a class="logo-alt" href="index.php"><img src="assets/img/logo-alt.png" alt="logo-alt"></a>
-          </div>
-
-        </div>
-        <!-- END Logo -->
-
-        <!-- User account -->
-        <div class="pull-right user-login">
-          <a class="btn btn-sm btn-primary" href="user-login.php">Login</a> or <a href="user-register.php">register</a>
-        </div>
-        <!-- END User account -->
-
-        <!-- Navigation menu -->
-        <ul class="nav-menu">
-          <li>
-            <a href="index.php">Home</a>
-            <ul>
-              <li><a href="index.php">Version 1</a></li>
-              <li><a href="index-2.php">Version 2</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Position</a>
-            <ul>
-              <li><a href="job-list-1.php">Browse jobs - 1</a></li>
-              <li><a href="job-list-2.php">Browse jobs - 2</a></li>
-              <li><a href="job-list-3.php">Browse jobs - 3</a></li>
-              <li><a href="job-detail.php">Job detail</a></li>
-              <li><a href="job-apply.php">Apply for job</a></li>
-              <li><a href="job-add.php">Post a job</a></li>
-              <li><a href="job-manage.php">Manage jobs</a></li>
-              <li><a href="job-candidates.php">Candidates</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Resume</a>
-            <ul>
-              <li><a href="resume-list.php">Browse resumes</a></li>
-              <li><a href="resume-detail.php">Resume detail</a></li>
-              <li><a href="resume-add.php">Create a resume</a></li>
-              <li><a href="resume-manage.php">Manage resumes</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Company</a>
-            <ul>
-              <li><a href="company-list.php">Browse companies</a></li>
-              <li><a href="company-detail.php">Company detail</a></li>
-              <li><a href="company-add.php">Create a company</a></li>
-              <li><a href="company-manage.php">Manage companies</a></li>
-            </ul>
-          </li>
-          <li>
-            <a class="active" href="#">Pages</a>
-            <ul>
-              <li><a class="active" href="page-blog.php">Blog</a></li>
-              <li><a href="page-post.php">Blog-post</a></li>
-              <li><a href="page-about.php">About</a></li>
-              <li><a href="page-contact.php">Contact</a></li>
-              <li><a href="page-faq.php">FAQ</a></li>
-              <li><a href="page-pricing.php">Pricing</a></li>
-              <li><a href="page-typography.php">Typography</a></li>
-              <li><a href="page-ui-elements.php">UI elements</a></li>
-            </ul>
-          </li>
-        </ul>
-        <!-- END Navigation menu -->
-
-      </div>
-    </nav>
-    <!-- END Navigation bar -->
+   <?php 
+    include "HeaderUser.php";
+   ?>
 
 
     <!-- Site header -->
@@ -111,6 +36,11 @@
       <div class="container no-shadow">
         <h1 class="text-center">Blog</h1>
         <p class="lead text-center">Keep up to date with the latest news</p>
+        <p>
+          <?php
+            echo "<a href='page-blog.php?topview=1'>Top views blog</a><br />";  
+          ?>
+        <p>
       </div>
     </header>
     <!-- END Site header -->
@@ -122,6 +52,55 @@
       <div class="row">
 
         <div class="col-md-8 col-lg-9">
+          
+          <?php 
+            include "connectDB.php";
+            if ($_GET['topview'] == 1){
+              $sql = "SELECT dbo.blog_show_most_view()";
+              $stmt = sqlsrv_query($conn, $sql);
+              $row = sqlsrv_fetch_array($stmt);
+              $id_user = $row[0];
+              $sql = "EXEC blog_show_blogID ".$id_user;
+              $stmt = sqlsrv_query($conn, $sql);
+              $row = sqlsrv_fetch_array($stmt);
+          ?>
+              
+              <article class="post">
+            <div class="post-media">
+              <a href="page-post.php"><img src="assets/img/blog-1.jpg" alt="..."></a>
+            </div>
+
+            <header>
+              <h2><a href="page-post.php">
+                <?php echo $row['TITLE']?>
+              </a></h2>
+              <p><?php echo date_format($row['UPLOAD_TIME'], 'Y-m-d H:i:s'); ?></p>
+            </header>
+
+            <div class="blog-content">
+              <p class="text-justify">
+                <?php echo substr($row['CONTENT'], 0, 100); ?>
+              </p>
+            </div>
+            
+              <p class="read-more">
+                <?php
+                 echo "<a class='btn btn-primary btn-outline' href='page-post.php?id=". $row['ID'] ."'>Continue reading</a>";
+                ?>  
+              </p>
+            
+          </article>
+              
+          <?php
+            }
+            else
+            {
+              $sql = "EXEC blog_show_all";
+              $stmt = sqlsrv_query($conn, $sql);
+              if ($stmt){
+                //$row = sqlsrv_fetch_array($stmt);
+                while ($row = sqlsrv_fetch_array($stmt)){
+          ?>
 
           <article class="post">
             <div class="post-media">
@@ -129,59 +108,32 @@
             </div>
 
             <header>
-              <h2><a href="page-post.php">How to Design Your Workspace for Productivity</a></h2>
-              <time datetime="2016-04-04 20:00">April 04, 2016</time>
+              <h2><a href="page-post.php">
+                <?php echo $row['TITLE']?>
+              </a></h2>
+              <p><?php echo date_format($row['UPLOAD_TIME'], 'Y-m-d H:i:s'); ?></p>
             </header>
 
             <div class="blog-content">
-              <p class="text-justify">One of the greatest benefits of a well-designed workspace and consequently, the option of privacy in the office is an increase in engagement and productivity among workers. Of the 11 percent of survey respondents who were highly satisfied with their work environments, the majority said that their workplace allowed them to concentrate easily, work in teams without being interrupted, choose where to work based on their task, and feel a sense of belonging to the company and its culture.</p>
+              <p class="text-justify">
+                <?php echo substr($row['CONTENT'], 0, 100); ?>
+              </p>
             </div>
-
-            <p class="read-more">
-              <a class="btn btn-primary btn-outline" href="page-post.php">Continue reading</a>
-            </p>
+            
+              <p class="read-more">
+                <?php
+                 echo "<a class='btn btn-primary btn-outline' href='page-post.php?id=". $row['ID'] ."'>Continue reading</a>";
+                ?>  
+              </p>
+            
           </article>
 
-
-          <article class="post">
-            <div class="post-media">
-              <a href="page-post.php"><img src="assets/img/blog-2.jpg" alt="..."></a>
-            </div>
-
-            <header>
-              <h2><a href="page-post.php">Office Dress Code Do's and Don'ts</a></h2>
-              <time datetime="2016-03-28 20:00">March 28, 2016</time>
-            </header>
-
-            <div class="blog-content">
-              <p class="text-justify">Office-appropriate fashion seems fairly obvious. So why do so many employees still make eyebrow-raising mistakes, especially during summer? The problem could be your company’s dress code policy, or lack of one. If you still don’t have a policy, you’re not alone: Plenty of companies are content to work without a formal dress code. That is, until the receptionist waltzes in one sweltering day in shorts, a tank top, and gladiator sandals.</p>
-            </div>
-
-            <p class="read-more">
-              <a class="btn btn-primary btn-outline" href="page-post.php">Continue reading</a>
-            </p>
-          </article>
-
-
-          <article class="post">
-            <div class="post-media">
-              <a href="page-post.php"><img src="assets/img/blog-3.jpg" alt="..."></a>
-            </div>
-
-            <header>
-              <h2><a href="page-post.php">Why People Thrive in Coworking Spaces</a></h2>
-              <time datetime="2016-03-17 20:00">March 17, 2016</time>
-            </header>
-
-            <div class="blog-content">
-              <p class="text-justify">There seems to be something special about coworking spaces. As researchers who have, for years, studied how employees thrive, we were surprised to discover that people who belong to them report levels of thriving that approach an average of 6 on a 7-point scale. This is at least a point higher than the average for employees who do their jobs in regular offices, and something so unheard of that we had to look at the data again.</p>
-            </div>
-
-            <p class="read-more">
-              <a class="btn btn-primary btn-outline" href="page-post.php">Continue reading</a>
-            </p>
-          </article>
-
+          <?php 
+              }
+            }
+          }
+            sqlsrv_close($conn);
+          ?>
 
           <nav>
             <ul class="pager">

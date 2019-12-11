@@ -1,3 +1,44 @@
+<?php 
+  include 'permission.php';
+  include 'connectDB.php';
+  $sql = "UPDATE BLOG SET VIEWNUM = VIEWNUM + 1 WHERE ID = ".$_GET['id'];
+  $stmt = sqlsrv_query($conn, $sql);
+
+  if ($stmt == false){
+    die( print_r( sqlsrv_errors(), true));
+  }
+
+  sqlsrv_close($conn);
+
+  if ($_GET['like'] == 1){
+    include 'connectDB.php';
+    $sql = "UPDATE BLOG SET LIKENUM = LIKENUM + 1 WHERE ID = ".$_GET['id'];
+    $stmt = sqlsrv_query($conn, $sql);
+
+    if ($stmt == false){
+      die( print_r( sqlsrv_errors(), true));
+    }
+
+    sqlsrv_close($conn);
+    echo '<script language="javascript">alert("Like thành công")</script>';
+    echo "<script> location.replace('page-post.php?id=" . $_GET["id"] . "');</script>";
+    exit;
+  }
+  elseif ($_GET['dislike'] == 1){
+    include 'connectDB.php';
+    $sql = "UPDATE BLOG SET DISLIKENUM = DISLIKENUM + 1 WHERE ID = ".$_GET['id'];
+    $stmt = sqlsrv_query($conn, $sql);
+
+    if ($stmt == false){
+      die( print_r( sqlsrv_errors(), true));
+    }
+
+    sqlsrv_close($conn);
+    echo '<script language="javascript">alert("Dislike thành công")</script>';
+    echo "<script> location.replace('page-post.php?id=" . $_GET["id"] . "');</script>";
+    exit;
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,94 +64,31 @@
 
   <body class="nav-on-header smart-nav">
 
-    <!-- Navigation bar -->
-    <nav class="navbar">
-      <div class="container">
+    <?php 
+    include "HeaderUser.php";
+    ?>
 
-        <!-- Logo -->
-        <div class="pull-left">
-          <a class="navbar-toggle" href="#" data-toggle="offcanvas"><i class="ti-menu"></i></a>
-
-          <div class="logo-wrapper">
-            <a class="logo" href="index.php"><img src="assets/img/logo.png" alt="logo"></a>
-            <a class="logo-alt" href="index.php"><img src="assets/img/logo-alt.png" alt="logo-alt"></a>
-          </div>
-
-        </div>
-        <!-- END Logo -->
-
-        <!-- User account -->
-        <div class="pull-right user-login">
-          <a class="btn btn-sm btn-primary" href="user-login.php">Login</a> or <a href="user-register.php">register</a>
-        </div>
-        <!-- END User account -->
-
-        <!-- Navigation menu -->
-        <ul class="nav-menu">
-          <li>
-            <a href="index.php">Home</a>
-            <ul>
-              <li><a href="index.php">Version 1</a></li>
-              <li><a href="index-2.php">Version 2</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Position</a>
-            <ul>
-              <li><a href="job-list-1.php">Browse jobs - 1</a></li>
-              <li><a href="job-list-2.php">Browse jobs - 2</a></li>
-              <li><a href="job-list-3.php">Browse jobs - 3</a></li>
-              <li><a href="job-detail.php">Job detail</a></li>
-              <li><a href="job-apply.php">Apply for job</a></li>
-              <li><a href="job-add.php">Post a job</a></li>
-              <li><a href="job-manage.php">Manage jobs</a></li>
-              <li><a href="job-candidates.php">Candidates</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Resume</a>
-            <ul>
-              <li><a href="resume-list.php">Browse resumes</a></li>
-              <li><a href="resume-detail.php">Resume detail</a></li>
-              <li><a href="resume-add.php">Create a resume</a></li>
-              <li><a href="resume-manage.php">Manage resumes</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Company</a>
-            <ul>
-              <li><a href="company-list.php">Browse companies</a></li>
-              <li><a href="company-detail.php">Company detail</a></li>
-              <li><a href="company-add.php">Create a company</a></li>
-              <li><a href="company-manage.php">Manage companies</a></li>
-            </ul>
-          </li>
-          <li>
-            <a class="active" href="#">Pages</a>
-            <ul>
-              <li><a href="page-blog.php">Blog</a></li>
-              <li><a class="active" href="page-post.php">Blog-post</a></li>
-              <li><a href="page-about.php">About</a></li>
-              <li><a href="page-contact.php">Contact</a></li>
-              <li><a href="page-faq.php">FAQ</a></li>
-              <li><a href="page-pricing.php">Pricing</a></li>
-              <li><a href="page-typography.php">Typography</a></li>
-              <li><a href="page-ui-elements.php">UI elements</a></li>
-            </ul>
-          </li>
-        </ul>
-        <!-- END Navigation menu -->
-
-      </div>
-    </nav>
-    <!-- END Navigation bar -->
-
-
+    <?php 
+      include "connectDB.php";
+      $sql = "EXEC blog_show_blogID ".$_GET['id'];
+      $stmt = sqlsrv_query($conn, $sql);
+      if ($stmt == false){
+        die( print_r( sqlsrv_errors(), true));
+      }
+      $row = sqlsrv_fetch_array($stmt);
+    ?>
     <!-- Site header -->
     <header class="page-header bg-img size-xl overlay-light" style="background-image: url(assets/img/blog-2.jpg)">
       <div class="container no-shadow">
-        <h1 class="text-center">Office Dress Code Do's and Don'ts</h1>
-        <p class="lead text-center"><time datetime="2016-03-28 20:00">March 28, 2016</time></p>
+        <h1 class="text-center">
+          <?php echo $row['TITLE']; ?>
+        </h1>
+        <p class="lead text-center">
+          <?php echo date_format($row['UPLOAD_TIME'], 'Y-m-d H:i:s'); 
+            echo "<br/>Like ".$row['LIKENUM']. " Dislike ".$row['DISLIKENUM'];
+            echo "<br/>Views ".$row['VIEWNUM'];
+          ?>
+        </p>
       </div>
     </header>
     <!-- END Site header -->
@@ -125,21 +103,13 @@
           <article class="post">
 
             <div class="blog-content">
-              <p>Was certainty sing remaining along how dare dad apply discover only. Settled opinion how enjoy so shy joy greater one. No properly day fat surprise and interest nor adapted replying she love. Bore tall nay too into many time expenses . Doubtful for answered yet less indulged margaret her post shutters together. Ladies many wholly around whence.</p>
-            
-              <h5>What to wear</h5>
-              <p>Residence certainly elsewhere something she preferred it cordially law. Age his surprise formerly perceive those few stanhill moderate. Of in power match on truth worse voice would. Large an it sense shall match learn. By expect result silent in formal of. Ask eat questions abilities described elsewhere stuff.</p>
-
-              <blockquote>Kindness to he horrible reserved ye. Effect twenty indeed beyond for not had county. Them to him without greatly can private. Increasing it unpleasant no of contrasted no continue.</blockquote>
-
-              <p>Give lady of they such they sure it. Me <strong>contained</strong> explained my education. Vulgar as hearts by garret meant  at no stuff. Perceived <i>determine departure</i> explained no forfeited he something an. Contrasted dissimilar get joy you instrument out reasonably. Again keeps.</p>
+              <p>
+                <?php  echo $row['CONTENT']; ?>
+              </p>
 
               <br>
               <p><img src="assets/img/blog-3.jpg" alt="..."></p>
               <br>
-
-              <h5>Say Yes to Capris</h5>
-              <p>Residence certainly elsewhere something she preferred it cordially law. Age his surprise formerly perceive those few stanhill moderate. Of in power match on truth worse voice would. Large an it sense shall match learn. By expect result silent in formal of. Ask eat questions abilities described elsewhere stuff.</p>
               
             </div>
 
@@ -157,6 +127,15 @@
                 <a href="#">Workspace</a>
               </li>
             </ul>
+            <?php
+              if ($_SESSION['ID'] == $row['ID_USER']){
+                echo "<a class='btn btn-primary btn-outline' href='update-blog.php?id=". $row['ID'] ."'>Edit Blog</a>";
+              }
+              echo "<a class='btn btn-primary btn-outline' href='page-post.php?id=". $row['ID'] ."&like=1'>Like Blog</a>";
+              echo "<a class='btn btn-primary btn-outline' href='page-post.php?id=". $row['ID'] ."&dislike=1'>Dislike Blog</a>";
+              sqlsrv_close($conn);
+            ?>
+            
 
             <div id="comments">
               <header>
