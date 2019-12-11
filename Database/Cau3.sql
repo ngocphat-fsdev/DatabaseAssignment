@@ -205,24 +205,19 @@ BEGIN
 END;
 
 CREATE PROCEDURE deleteCandidate
-@CandidateName VARCHAR(255)
+@CvID INT
 AS
 BEGIN
-	DELETE cvitae
-	FROM CV cvitae
-	INNER JOIN NORMAL_USER ON cvitae.ID_USER = NORMAL_USER.ID
-	INNER JOIN SUBMIT_CV ON cvitae.ID = SUBMIT_CV.ID_CV
-	INNER JOIN RECRUIT_POST ON RECRUIT_POST.ID = SUBMIT_CV.ID_RPOST
-	INNER JOIN RECRUIT_POST_UPLOADER ON RECRUIT_POST.ID_UPLOADER = RECRUIT_POST_UPLOADER.ID
-	INNER JOIN EMPLOYEE ON RECRUIT_POST_UPLOADER.ID = EMPLOYEE.ID
-	WHERE NORMAL_USER.FULLNAME = @CandidateName
+	DELETE 
+	FROM CV 
+	WHERE CV.ID = @CvID
 END;
 
 CREATE PROCEDURE seeCandidate
 AS 
 BEGIN
 	SELECT NORMAL_USER.FULLNAME, NORMAL_USER.BIRTHDATE, NORMAL_USER.SEX,
-			CV.EMAIL, CV.CARREER_OBJ, CV.EXP_FIELD
+			CV.EMAIL, CV.CARREER_OBJ, CV.EXP_FIELD, CV.ID
 	FROM NORMAL_USER
 	INNER JOIN CV ON CV.ID_USER = NORMAL_USER.ID
 	INNER JOIN SUBMIT_CV ON CV.ID = SUBMIT_CV.ID_CV
@@ -232,8 +227,194 @@ BEGIN
 	ORDER BY NORMAL_USER.FULLNAME
 END;
 
+
 CREATE PROCEDURE CheckCompany(@id_account INT)
 AS
 BEGIN
 	SELECT * FROM COMPANY WHERE ID_Account = @id_account;
 END
+
+CREATE PROCEDURE getAllPosts
+@UploaderID INT
+AS
+BEGIN
+	SELECT POST.ID, UPLOADER_NAME, TITLE, UPLOAD_TIME, WORK_PLACE, POSTION, REQUIREMENT, WORK_TIME,
+	QUANTITY, CV_DEADLINE, SALARY, POST.ACC_ID
+	FROM POST, RECRUIT_POST 
+	WHERE POST.ACC_ID = @UploaderID AND POST.ID = RECRUIT_POST.ID
+	ORDER BY POST.ACC_ID
+END
+
+CREATE PROCEDURE getPost
+@ID_POST INT
+AS
+BEGIN
+	SELECT POST.ID, ACC_ID, UPLOADER_NAME, TITLE, UPLOAD_TIME, WORK_PLACE, POSTION, REQUIREMENT, WORK_TIME,
+	QUANTITY, CV_DEADLINE, SALARY
+	FROM POST, RECRUIT_POST 
+	WHERE POST.ID = @ID_POST AND POST.ID = RECRUIT_POST.ID
+END
+
+create function F_RPOST_INFO(@compId int)
+returns table
+as
+return (
+	select POST.TITLE, POST.UPLOAD_TIME, RECRUIT_POST.POSTION, RECRUIT_POST.QUANTITY, RECRUIT_POST.SALARY, RECRUIT_POST.WORK_PLACE, RECRUIT_POST.REQUIREMENT, POST.ID
+	from COMPANY,EMPLOYEE,RECRUIT_POST,POST
+	where COMPANY.ID = @compId and EMPLOYEE.ID_COMPANY = @compId and RECRUIT_POST.ID_UPLOADER = EMPLOYEE.ID and RECRUIT_POST.ID = POST.ID
+);
+
+create function F_get_compId(@empId int)
+returns table
+as
+return (
+	select EMPLOYEE.ID_COMPANY, COMPANY.NAME, COMPANY.LOGO from EMPLOYEE, COMPANY where EMPLOYEE.ID = @empId
+);
+
+ALTER FUNCTION SearchLocation (@keyword VARCHAR(255),
+@location VARCHAR(255))
+RETURNS TABLE
+AS
+RETURN(
+	SELECT * FROM COMPANY 
+	WHERE (NAME LIKE @keyword) AND (ADDRESS LIKE @location)
+);
+
+
+câu 1
+create procedure pack_insert
+@price int,
+@expire int,
+@maxpost int
+as
+begin
+	if @price < 0 raiserror ('Price must be positive number',20,1) with log
+	if @expire < 0 raiserror ('Expiration must be positive number',20,1) with log
+	if @maxpost < 0 raiserror ('Max number of post must be positive number',20,1) with log
+	
+	if exists (select * from PACK where PRICE = @price and EXPIRATION = @expire and MAX_POST = @maxpost)
+	raiserror ('This pack already exists',20,1) with log
+	declare @packId as int
+	set @packId = (select max(ID) from PACK) + 1
+	begin try
+		insert into PACK values(@packId,@price,@expire,@maxpost);
+	end try
+	begin catch
+		print 'Error'
+	end catch
+end;
+
+
+create procedure purchase_insert
+@packId int,
+@company varchar(255),
+@payMethod varchar(255)
+as
+begin
+	declare @compId as int
+	set @compId = (select ID from COMPANY where NAME = @company)
+	begin try
+		insert into PURCHASE values(@packId,@compId,@payMethod,GETDATE(),1)
+	end try
+	begin catch
+		update PURCHASE set TIMES = TIMES + 1, PURCHASED_DATE = GETDATE(), PAY_METHOD = @payMethod where ID_PACK = @packId and ID_COMP = @compId
+	end catch
+end;
+
+
+câu 2
+
+create trigger purchase_trigger
+on PURCHASE
+after insert
+as
+begin
+	declare @packId as int
+	set @packId = (select ID_PACK from inserted)
+	declare @postNum as int
+	set @postNum = (select MAX_POST from PACK where ID = @packId)
+	update COMPANY set REMAINING = REMAINING + @postNum where ID = (select ID_COMP from inserted)
+end;
+
+
+create trigger pack_update_trigger
+on PACK
+after update
+as
+begin
+	declare @newMaxPost as int
+	declare @oldMaxPost as int
+	declare @postNum as int
+	declare @packId as int
+	set @packId = (select ID from inserted)
+	
+	set @newMaxPost = (select MAX_POST from inserted)
+	set @oldMaxPost = (select MAX_POST from deleted)
+	if @newMaxPost > @oldMaxPost
+	begin
+		set @postNum = @newMaxPost - @oldMaxPost
+	end
+	else set @postNum = 0
+
+	declare @oldExpiration as int
+	set @oldExpiration = (select EXPIRATION from deleted)
+
+	update COMPANY set REMAINING = REMAINING + @postNUm
+	where ID in (select ID_COMP from PURCHASE where ID_PACK = @packId and DATEADD(month,@oldExpiration,PURCHASED_DATE) >= GETDATE())
+end;
+
+
+câu 3
+
+
+create procedure get_company_buy_pack
+@packId int
+as
+begin
+	select NAME, PURCHASE.ID_PACK from COMPANY,PURCHASE where PURCHASE.ID_PACK = @packId and ID_COMP = COMPANY.ID order by NAME 
+end;
+
+
+create procedure get_pack_bought_by_more_than_N_company
+@compNum as int
+as
+begin
+	select PACK.ID,PACK.PRICE,PACK.EXPIRATION,PACK.MAX_POST,count(*) as NUMCOMPANY
+	from PACK,PURCHASE
+	where PACK.ID = PURCHASE.ID_PACK
+	group by PACK.ID,PACK.PRICE,PACK.EXPIRATION,PACK.MAX_POST
+	having count(*) >= @compNum
+	order by PACK.ID
+end;
+
+
+
+câu 4
+
+create function khoi1(@compId int)
+returns table
+as 
+return (
+	select COMPANY.NAME, PACK.ID as PACK,PURCHASE.TIMES, PURCHASE.TIMES*PACK.PRICE as COST
+	from COMPANY,PACK,PURCHASE
+	where PURCHASE.ID_COMP = @compId and COMPANY.ID = @compId and PACK.ID = PURCHASE.ID_PACK
+);
+
+
+
+create function khoi2(@pdate date)
+returns int 
+as
+begin
+	if @pdate >= GETDATE()
+	begin 
+		return -1
+	end
+	declare @result int
+	set @result =  (
+			select count(*) as PURCHASE_NUM
+			from PURCHASE
+			where PURCHASE.PURCHASED_DATE = @pdate
+	) 
+	return @result
+end;

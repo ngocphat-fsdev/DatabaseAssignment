@@ -57,7 +57,6 @@
 			<?php while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) { ?>
 
 				<li>
-				<form action="pack-pricing.php?id=<?php $row['ID'] ?>" method="POST">
 				<h6>Package</h6>
 				<div class="price">
 					<sup>$</sup><?php echo $row['PRICE'];?>
@@ -67,8 +66,7 @@
 				<p><strong><?php echo $row['MAX_POST']?></strong> job posting</p>
 				<p><strong><?php echo $row['EXPIRATION']?></strong> months</p>
 				<br>
-				<a class="btn btn-primary btn-block" href="pack-buy.php?id=<?php echo $row['ID'];?>" type="submit" name="btnSubmit">Select plan</a>
-				</form>
+				<a class="btn btn-primary btn-block" href="pack-update.php?id=<?php echo $row['ID'];?>" type="submit" name="btnSubmit">Select plan</a>
 				</li>
 
 			<?php } ?>

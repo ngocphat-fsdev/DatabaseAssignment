@@ -1,3 +1,58 @@
+<?php
+    include 'permission.php';
+    function phpAlert($msg) {
+      echo '<script type="text/javascript">alert("' . $msg . '")</script>';
+      echo "<script> location.replace('index.php');</script>";
+    }
+    include('connectDB.php');
+    $id_account = $_SESSION['ID'];
+    // $tsql_callSP = "EXEC CheckCompany '$id_account' ";
+    // $stmt = sqlsrv_query($conn, $tsql_callSP);
+    // $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+    // $company_name = row['NAME'];
+    $company_name = "HCMUT";
+	if (isset($_POST['btnSubmit'])){
+		$title = $_POST['title'];
+		$recruitUploaderName = $_SESSION['USERNAME'];
+		$worktime = $_POST['worktime'];
+		$salary = $_POST['salary'];
+		$CVDeadline = $_POST['DeadlineCV'];
+		$location = $_POST['location'];
+		$quantity = $_POST['quantity'];
+		$position = $_POST['position'];
+		$requirement = $_POST['Requirement'];
+		$tsql_callSP = "EXEC RecruitPostInsert ?, ?, ?, ?, ?, ?, ?, ?, ?";
+		$param = array(
+			array($id_account, SQLSRV_PARAM_IN),
+			array($title, SQLSRV_PARAM_IN),
+			array($location, SQLSRV_PARAM_IN),
+			array($requirement, SQLSRV_PARAM_IN),
+			array($position, SQLSRV_PARAM_IN),
+			array($worktime, SQLSRV_PARAM_IN),
+			array($salary, SQLSRV_PARAM_IN),
+			array($quantity, SQLSRV_PARAM_IN),
+			array($CVDeadline, SQLSRV_PARAM_IN),
+
+		);	
+		$stmt = sqlsrv_query($conn, $tsql_callSP, $param);
+		if ($stmt == False) {
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+			die();
+		}
+		sqlsrv_free_stmt($stmt);
+		sqlsrv_close($conn);
+		phpAlert("Tạo tin tuyển dụng thành công.");
+        exit();
+	}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,102 +79,17 @@
 
   <body class="nav-on-header smart-nav">
 
-    <!-- Navigation bar -->
-    <nav class="navbar">
-      <div class="container">
-
-        <!-- Logo -->
-        <div class="pull-left">
-          <a class="navbar-toggle" href="#" data-toggle="offcanvas"><i class="ti-menu"></i></a>
-
-          <div class="logo-wrapper">
-            <a class="logo" href="index.php"><img src="assets/img/logo.png" alt="logo"></a>
-            <a class="logo-alt" href="index.php"><img src="assets/img/logo-alt.png" alt="logo-alt"></a>
-          </div>
-
-        </div>
-        <!-- END Logo -->
-
-        <!-- User account -->
-        <div class="pull-right">
-
-          <div class="dropdown user-account">
-            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-              <img src="assets/img/logo-envato.png" alt="avatar">
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href="user-login.php">Login</a></li>
-              <li><a href="user-register.php">Register</a></li>
-              <li><a href="user-forget-pass.php">Forget pass</a></li>
-              <li><a href="#">Logout</a></li>
-            </ul>
-          </div>
-
-        </div>
-        <!-- END User account -->
-
-        <!-- Navigation menu -->
-        <ul class="nav-menu">
-          <li>
-            <a href="index.php">Home</a>
-            <ul>
-              <li><a href="index.php">Version 1</a></li>
-              <li><a href="index-2.php">Version 2</a></li>
-            </ul>
-          </li>
-          <li>
-            <a class="active" href="#">Position</a>
-            <ul>
-              <li><a href="job-list-1.php">Browse jobs - 1</a></li>
-              <li><a href="job-list-2.php">Browse jobs - 2</a></li>
-              <li><a href="job-list-3.php">Browse jobs - 3</a></li>
-              <li><a href="job-detail.php">Job detail</a></li>
-              <li><a href="job-apply.php">Apply for job</a></li>
-              <li><a class="active" href="job-add.php">Post a job</a></li>
-              <li><a href="job-manage.php">Manage jobs</a></li>
-              <li><a href="job-candidates.php">Candidates</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Resume</a>
-            <ul>
-              <li><a href="resume-list.php">Browse resumes</a></li>
-              <li><a href="resume-detail.php">Resume detail</a></li>
-              <li><a href="resume-add.php">Create a resume</a></li>
-              <li><a href="resume-manage.php">Manage resumes</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Company</a>
-            <ul>
-              <li><a href="company-list.php">Browse companies</a></li>
-              <li><a href="company-detail.php">Company detail</a></li>
-              <li><a href="company-add.php">Create a company</a></li>
-              <li><a href="company-manage.php">Manage companies</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Pages</a>
-            <ul>
-              <li><a href="page-blog.php">Blog</a></li>
-              <li><a href="page-post.php">Blog-post</a></li>
-              <li><a href="page-about.php">About</a></li>
-              <li><a href="page-contact.php">Contact</a></li>
-              <li><a href="page-faq.php">FAQ</a></li>
-              <li><a href="page-pricing.php">Pricing</a></li>
-              <li><a href="page-typography.php">Typography</a></li>
-              <li><a href="page-ui-elements.php">UI elements</a></li>
-            </ul>
-          </li>
-        </ul>
-        <!-- END Navigation menu -->
-
-      </div>
-    </nav>
+	<?php 
+	if (!isPoster()){
+		Header( "HTTP/1.1 301 Moved Permanently" );
+		header('Location: index.php');
+		exit();
+	}
+	include 'HeaderPoster-1.php';
+	?>
     <!-- END Navigation bar -->
 
-
+    <form action="job-add.php" method="POST" > 
     <!-- Page header -->
     <header class="page-header">
       <div class="container page-name">
@@ -128,98 +98,78 @@
       </div>
 
       <div class="container">
+		<div class="row">
+			<div class="form-group col-xs-12 col-sm-6">
+				<input type="text" name="title" class="form-control input-lg" placeholder="Job title, e.g. Front-end developer">
+			</div>
 
-        <div class="row">
-          <div class="form-group col-xs-12 col-sm-6">
-            <input type="text" class="form-control input-lg" placeholder="Job title, e.g. Front-end developer">
-          </div>
+			<div class="form-group col-xs-12 col-sm-6">
+				<a href="company-detail.php?id=3"> <?php echo "Company: " . $company_name; ?> </a>
+			</div>
 
-          <div class="form-group col-xs-12 col-sm-6">
-            <select class="form-control selectpicker">
-              <option>Select a company</option>
-              <option>Google</option>
-              <option>Microsoft</option>
-              <option>Apple</option>
-              <option>Facebook</option>
-            </select>
-            <a class="help-block" href="company-add.php">Add new company</a>
-          </div>
 
-          <div class="form-group col-xs-12">
-            <textarea class="form-control" rows="3" placeholder="Short description"></textarea>
-          </div>
+			<div class="form-group col-xs-12">
+				<textarea name="Requirement" class="form-control" rows="3" placeholder="Short description"></textarea>
+			</div>
 
-          <div class="form-group col-xs-12">
-            <input type="text" class="form-control" placeholder="Application URL">
-          </div>
+			<div class="form-group col-xs-12 col-sm-6 col-md-4">
+				<div class="input-group input-group-sm">
+				<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+				<input name="location" type="text" class="form-control" placeholder="Location, e.g. Melon Park, CA">
+				</div>
+			</div>
 
-          <div class="form-group col-xs-12 col-sm-6 col-md-4">
-            <div class="input-group input-group-sm">
-              <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-              <input type="text" class="form-control" placeholder="Location, e.g. Melon Park, CA">
-            </div>
-          </div>
+          	<div class="form-group col-xs-12 col-sm-6 col-md-4">
+				<div class="input-group input-group-sm">
+					<span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
+					<select name="position" class="form-control selectpicker">
+						<option value = "Full time">Full time</option>
+						<option value = "Part time">Part time</option>
+						<option value = "Internship">Internship</option>
+						<option value = "Freelance">Freelance</option>
+						<option value = "Remote">Remote</option>
+					</select>
+				</div>
+			</div>
 
-          <div class="form-group col-xs-12 col-sm-6 col-md-4">
-            <div class="input-group input-group-sm">
-              <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
-              <select class="form-control selectpicker">
-                <option>Full time</option>
-                <option>Part time</option>
-                <option>Internship</option>
-                <option>Freelance</option>
-                <option>Remote</option>
-              </select>
-            </div>
-          </div>
+			<div class="form-group col-xs-12 col-sm-6 col-md-4">
+				<div class="input-group input-group-sm">
+					<span class="input-group-addon"><i class="fa fa-money"></i></span>
+					<input type="date" name="DeadlineCV" class="form-control input-lg" >
+				</div>
+			</div>
 
           <div class="form-group col-xs-12 col-sm-6 col-md-4">
             <div class="input-group input-group-sm">
               <span class="input-group-addon"><i class="fa fa-money"></i></span>
-              <input type="text" class="form-control" placeholder="Salary">
+              <input name="salary" type="text" class="form-control" placeholder="Salary">
             </div>
           </div>
 
           <div class="form-group col-xs-12 col-sm-6 col-md-4">
             <div class="input-group input-group-sm">
               <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-              <input type="text" class="form-control" placeholder="Working hours, e.g. 40">
+              <input name="worktime" type="text" class="form-control" placeholder="Working hours, e.g. 40">
               <span class="input-group-addon">hours / week</span>
             </div>
           </div>
 
-          <div class="form-group col-xs-12 col-sm-6 col-md-4">
+          <!-- <div class="form-group col-xs-12 col-sm-6 col-md-4">
             <div class="input-group input-group-sm">
               <span class="input-group-addon"><i class="fa fa-flask"></i></span>
               <input type="text" class="form-control" placeholder="Experience, e.g. 5">
               <span class="input-group-addon">Years</span>
             </div>
-          </div>
+          </div> -->
 
           <div class="form-group col-xs-12 col-sm-6 col-md-4">
             <div class="input-group input-group-sm">
               <span class="input-group-addon"><i class="fa fa-certificate"></i></span>
-              <select class="form-control selectpicker" multiple>
-                <option>Postdoc</option>
-                <option>Ph.D.</option>
-                <option>Master</option>
-                <option selected>Bachelor</option>
-              </select>
-            </div>
-          </div>
-
-
-        </div>
-
-        <div class="button-group">
-          <div class="action-buttons">
-            <div class="upload-button">
-              <button class="btn btn-block btn-primary">Choose a cover image</button>
-              <input id="cover_img_file" type="file">
+              <input name="quantity" type="text" class="form-control" placeholder="Quantity, e.g. 40">
+              <span class="input-group-addon">persons</span>
             </div>
           </div>
         </div>
-
       </div>
     </header>
     <!-- END Page header -->
@@ -227,25 +177,6 @@
 
     <!-- Main container -->
     <main>
-
-
-        <!-- Job detail -->
-        <section>
-          <div class="container">
-
-            <header class="section-header">
-              <span>Description</span>
-              <h2>Job detail</h2>
-              <p>Write about your company, job description, skills required, benefits, etc.</p>
-            </header>
-            
-            <textarea class="summernote-editor"></textarea>
-
-          </div>
-        </section>
-        <!-- END Job detail -->
-
-
         <!-- Submit -->
         <section class="bg-alt">
           <div class="container">
@@ -255,7 +186,7 @@
               <p>Please review your information once more and press the below button to put your job online.</p>
             </header>
 
-            <p class="text-center"><button class="btn btn-success btn-xl btn-round">Submit your job</button></p>
+            <p class="text-center"><button name="btnSubmit" class="btn btn-success btn-xl btn-round">Submit your job</button></p>
 
           </div>
         </section>
@@ -264,7 +195,7 @@
 
     </main>
     <!-- END Main container -->
-
+	</form>
 
     <!-- Site footer -->
     <footer class="site-footer">

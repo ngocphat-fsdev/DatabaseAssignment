@@ -1,0 +1,183 @@
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{vietnam}
+
+%\usepackage{vntex}
+
+%\usepackage[english,vietnam]{babel}
+%\usepackage[utf8]{inputenc}
+
+%\usepackage[utf8]{inputenc}
+%\usepackage[francais]{babel}
+\usepackage{a4wide,amssymb,epsfig,latexsym,multicol,array,hhline,fancyhdr}
+
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{lastpage}
+\usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}							
+% Standard graphics package
+\usepackage{array}
+\usepackage{tabularx, caption}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{rotating}
+\usepackage{graphics}
+\usepackage[a4paper,left=2cm,right=2cm,top=1.8cm,bottom=2.8cm]{geometry}
+\usepackage{setspace}
+\usepackage{epsfig}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\newcommand\HRule{\rule{\textwidth}{1pt}}
+\usetikzlibrary{arrows,snakes,backgrounds}
+\usepackage[unicode]{hyperref}
+%can file puenc.def trong thu muc goc de option [unicode] tao ra bookmark bang tieng Viet
+\hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true} 
+%\usepackage{pstcol} 								
+% PSTricks with the standard color package
+
+\newtheorem{theorem}{{\bf Theorem}}
+\newtheorem{property}{{\bf Property}}
+\newtheorem{proposition}{{\bf Proposition}}
+\newtheorem{corollary}[proposition]{{\bf Corollary}}
+\newtheorem{lemma}[proposition]{{\bf Lemma}}
+
+%\usepackage{fancyhdr}
+\setlength{\headheight}{40pt}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[L]{
+	\begin{tabular}{rl}
+		\begin{picture}(25,15)(0,0)
+		\put(0,-8){\includegraphics[width=8mm, height=8mm]{img/hcmut.png}}
+		%\put(0,-8){\epsfig{width=10mm,figure=hcmut.eps}}
+		\end{picture}&
+		%\includegraphics[width=8mm, height=8mm]{hcmut.png} & %
+		\begin{tabular}{l}
+			\textbf{\bf \ttfamily Trường Đại học Bách Khoa - Đại học Quốc gia Thành phố Hồ Chí Minh}\\
+			\textbf{\bf \ttfamily Khoa Khoa học và Kỹ thuật Máy tính}
+		\end{tabular} 	
+	\end{tabular}
+}
+\fancyhead[R]{
+	\begin{tabular}{l}
+		\tiny \bf \\
+		\tiny \bf 
+\end{tabular}  }
+\fancyfoot{} % clear all footer fields
+\fancyfoot[L]{\scriptsize \ttfamily Assignment 1 - Hệ cơ sở dữ liệu, 2019-2020}
+\fancyfoot[R]{\scriptsize \ttfamily Trang {\thepage}/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+
+%%%
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\makeatletter
+\newcounter {subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@alph\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+	{-3.25ex\@plus -1ex \@minus -.2ex}%
+	{1.5ex \@plus .2ex}%
+	{\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+\makeatother
+
+
+\begin{document}
+	
+\begin{titlepage}
+	\begin{tikzpicture}[remember picture, overlay]
+	\draw[line width = 3pt,color=blue] ($(current page.north west) + (2.2cm,-2.2cm)$) rectangle ($(current page.south east) + (-2.2cm,2.2cm)$);
+	\draw[line width = 2pt,color=green] ($(current page.north west) + (2cm,-2cm)$) rectangle ($(current page.south east) + (-2cm,2cm)$);
+	\end{tikzpicture}
+	\vspace{1.5cm}
+	\begin{center} \large
+		ĐẠI HỌC BÁCH KHOA - ĐẠI HỌC QUỐC GIA TP HỒ CHÍ MINH \\
+		\textbf{KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH} \\
+		- - - - - - - - - - - - - - - - - - - - - 
+	\end{center}
+	
+	
+	\vspace{1cm}
+	\begin{figure}[h!]
+		\begin{center}
+			\includegraphics[width=3.6cm]{img/hcmut.png}
+		\end{center}
+	\end{figure}
+	\vspace{1cm}
+	
+	
+	
+	\begin{center}
+		\begin{tabular}{c}
+			\multicolumn{1}{c}{\textbf{{\Huge HỆ CƠ SỞ DỮ LIỆU}}}\\
+			\\ \hline \\
+			\textbf{{\Large Assignment 1}}\\
+			\\
+			\textbf{{\large Topic 2: Design database for a recruitment system }}\\
+			\textbf{{\large like Itviec.com, vietnamworks.com, etc. }}\\
+			\\ \hline \\
+		\end{tabular}
+	\end{center}
+	\begin{table}[h]
+		\begin{tabular}{rrlrr}
+			\hspace{5cm} 
+			& {\large Giảng viên hướng dẫn}: & {\large Trương Quỳnh Chi} & & \\
+			& {\large Lớp}: & {\large L05} & & \\
+			& {\large Sinh viên}: & {\large 1710228 - Nguyễn Ngọc Phát } \\
+			& {} & {\large 1710148 - Cao Minh Khôi } \\
+			& {} & {\large 1710158 - Trần Chí Kiệt } \\
+			& {} & {\large 1710188 - Cao Nguyệt Minh} \\
+			& {} & {\large 1714075 - Cao Ngọc Xuân Yến} \\
+		\end{tabular}
+	\end{table}
+	
+	\vspace{3cm}
+	
+	\begin{center}
+		{\footnotesize Thành phố Hồ Chí Minh, 10/2019}
+	\end{center}
+	
+\end{titlepage}
+	
+	
+	%\thispagestyle{empty}
+	\newpage
+	\tableofcontents
+	\newpage
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Giới thiệu đề tài}
+	$\indent$
+	Dựa vào website itviec.com xây dựng cơ sở dữ liệu cung cấp việc làm cho ngành công nghệ thông tin cũng như các thông tin, tin tức liên quan đến công nghệ thông tin.
+	\section{Thu thập và phân tích yêu cầu}
+	$\indent$
+	Trang web này là trang tổng hợp các bài đăng về việc làm từ các công ty để cho những người tìm việc làm lựa chọn, ngoài ra còn là nơi giao lưu học hỏi kinh nghiệm của mọi người qua các bài viết dạng blog. \\
+	$\indent$
+	Trên trang chủ, người dùng có thể tìm kiếm công việc dựa trên từ khóa và vị trí, hiển thị các công ty nổi bật, hiển thị 2 bài đăng blog nổi bật nhất. Hiển thị các thông tin về việc làm mà các công ty cần tuyển dụng.\\
+	$\indent$ 
+	Người dùng khi đăng kí tài khoản sẽ được hệ thống cung cấp một ID cá nhân. Người tìm việc phải điền đầy đủ những thông tin cá nhân sau: Họ và tên, giới tính, năm sinh, ảnh đại diện. Người tìm việc có thể tìm kiếm được việc làm theo các bài tuyển dụng do người đăng tin gửi bài hoặc có thể post các bài blog để chia sẻ kinh nghiệm.\\
+	$\indent$
+	Người tìm việc có thể nộp CV xin việc thông qua hệ thống bằng cách điền thông tin vào form có sẵn của hệ thống gồm những thông tin như Email, lĩnh vực hoạt động, mục tiêu nghề nghiệp, thời gian tích lũy kinh nghiệm, nhiều số điện thoại liên lạc hoặc file CV tự viết.\\
+	$\indent$
+	CV do người tìm việc viết và thông tin người tìm việc đều được nộp ở tin tuyển dụng và người tuyển dụng. \\ 
+	$\indent$ 
+	Mỗi công ty đăng kí với hệ thống cần khai báo thông tin về tên công ty, địa chỉ công ty, lĩnh vực hoạt động, loại hình kinh doanh và website của công ty. Các công ty muốn đăng tin tuyển dụng thì phải mua gói đăng tin và trả tiền thông qua ngân hàng. Gói đăng tin có những mức giá khác nhau tùy thuộc vào số bài đăng tin tuyển dụng cho phép. Công ty đăng kí với hệ thống tài khoản cho nhân viên công ty gồm người tuyển dụng và người đăng tin tuyển dụng. Nhân viên công ty có những thông tin như họ tên và số điện thoại.\\
+	$\indent$
+	Người đăng tin sẽ gửi tin tuyển dụng lên hệ thống gồm yêu cầu công việc, thời gian làm việc, nơi làm viêc, các vị trí tuyển dụng có từng mức lương, chức vụ cụ thể. Người đăng tin chỉ được đăng số tin tuyển dụng tối đa theo từng gói mà công ty đã mua. Người đăng tin có thể xem số bài đăng còn lại mà người dùng có thể đăng.\\
+	$\indent$ 
+	Người sử dụng thông qua hệ thống cũng có thể đặt các câu hỏi liên quan đến công việc, lợi ích khi làm việc cho nhà tuyển dụng. \\
+
+	\newpage
+	\section{Lược đồ (E-)ERD}
+
+	\newpage
+	\section{Ánh xạ sang lược đồ CSDL}
+
+\end{document}
+

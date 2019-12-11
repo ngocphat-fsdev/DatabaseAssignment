@@ -1,3 +1,29 @@
+<?php
+	function phpAlert($msg) {
+		echo '<script type="text/javascript">alert("' . $msg . '")</script>';
+		echo "<script> location.replace('index.php');</script>";
+	}
+	include 'connectDB.php';
+	include 'permission.php';
+	if (isset($_POST['btnSearch'])){
+		$location = $_POST["location"];
+		$keyword = $_POST["keyword"];
+		$location = "%".$location."%";
+		$keyword = "%".$keyword."%";
+		$tsql_callSP = "SELECT * FROM SearchLocation ( '$keyword','$location')";
+    	$stmt = sqlsrv_query($conn, $tsql_callSP);
+      	if ($stmt == false){
+        	die( print_r( sqlsrv_errors(), true));
+        }
+	}
+	else {
+		$tsql_callSP = "SELECT * FROM COMPANY";
+    	$stmt = sqlsrv_query($conn, $tsql_callSP);
+      	if ($stmt == false){
+        	die( print_r( sqlsrv_errors(), true));
+        }
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,85 +50,7 @@
   <body class="nav-on-header smart-nav bg-alt">
 
     <!-- Navigation bar -->
-    <nav class="navbar">
-      <div class="container">
-
-        <!-- Logo -->
-        <div class="pull-left">
-          <a class="navbar-toggle" href="#" data-toggle="offcanvas"><i class="ti-menu"></i></a>
-
-          <div class="logo-wrapper">
-            <a class="logo" href="index.php"><img src="assets/img/logo.png" alt="logo"></a>
-            <a class="logo-alt" href="index.php"><img src="assets/img/logo-alt.png" alt="logo-alt"></a>
-          </div>
-
-        </div>
-        <!-- END Logo -->
-
-        <!-- User account -->
-        <div class="pull-right user-login">
-          <a class="btn btn-sm btn-primary" href="user-login.php">Login</a> or <a href="user-register.php">register</a>
-        </div>
-        <!-- END User account -->
-
-        <!-- Navigation menu -->
-        <ul class="nav-menu">
-          <li>
-            <a href="index.php">Home</a>
-            <ul>
-              <li><a href="index.php">Version 1</a></li>
-              <li><a href="index-2.php">Version 2</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Position</a>
-            <ul>
-              <li><a href="job-list-1.php">Browse jobs - 1</a></li>
-              <li><a href="job-list-2.php">Browse jobs - 2</a></li>
-              <li><a href="job-list-3.php">Browse jobs - 3</a></li>
-              <li><a href="job-detail.php">Job detail</a></li>
-              <li><a href="job-apply.php">Apply for job</a></li>
-              <li><a href="job-add.php">Post a job</a></li>
-              <li><a href="job-manage.php">Manage jobs</a></li>
-              <li><a href="job-candidates.php">Candidates</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Resume</a>
-            <ul>
-              <li><a href="resume-list.php">Browse resumes</a></li>
-              <li><a href="resume-detail.php">Resume detail</a></li>
-              <li><a href="resume-add.php">Create a resume</a></li>
-              <li><a href="resume-manage.php">Manage resumes</a></li>
-            </ul>
-          </li>
-          <li>
-            <a class="active" href="#">Company</a>
-            <ul>
-              <li><a class="active" href="company-list.php">Browse companies</a></li>
-              <li><a href="company-detail.php">Company detail</a></li>
-              <li><a href="company-add.php">Create a company</a></li>
-              <li><a href="company-manage.php">Manage companies</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Pages</a>
-            <ul>
-              <li><a href="page-blog.php">Blog</a></li>
-              <li><a href="page-post.php">Blog-post</a></li>
-              <li><a href="page-about.php">About</a></li>
-              <li><a href="page-contact.php">Contact</a></li>
-              <li><a href="page-faq.php">FAQ</a></li>
-              <li><a href="page-pricing.php">Pricing</a></li>
-              <li><a href="page-typography.php">Typography</a></li>
-              <li><a href="page-ui-elements.php">UI elements</a></li>
-            </ul>
-          </li>
-        </ul>
-        <!-- END Navigation menu -->
-
-      </div>
-    </nav>
+    <?php include 'HeaderCompany-2.php' ?>
     <!-- END Navigation bar -->
 
 
@@ -114,15 +62,15 @@
       </div>
 
       <div class="container">
-        <form action="#">
+        <form action="company-list.php" method="POST">
 
           <div class="row">
             <div class="form-group col-xs-12 col-sm-4">
-              <input type="text" class="form-control" placeholder="Keyword">
+              <input type="text" name="keyword" class="form-control" placeholder="Keyword">
             </div>
 
             <div class="form-group col-xs-12 col-sm-4">
-              <input type="text" class="form-control" placeholder="Location">
+              <input type="text" name="location" class="form-control" placeholder="Location">
             </div>
 
             <div class="form-group col-xs-12 col-sm-4">
@@ -144,7 +92,7 @@
 
           <div class="button-group">
             <div class="action-buttons">
-              <button class="btn btn-primary">Apply filter</button>
+              <button name="btnSearch" class="btn btn-primary" type="submit">Apply filter</button>
             </div>
           </div>
 
@@ -164,132 +112,32 @@
 
             <div class="col-xs-12">
               <br>
-              <h5>We found <strong>86</strong> matches, you're watching <i>10</i> to <i>15</i></h5>
             </div>
-
+			<?php while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){ 
+				$id_company = $row['ID'];
+				$tsql_callSP = "SELECT COUNT(ID) AS NUMPOST FROM F_RPOST_INFO('$id_company') AS NUMJOB";
+				$stmt1 = sqlsrv_query($conn, $tsql_callSP);
+				$row1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC);
+			?>
             <!-- Company detail -->
             <div class="col-xs-12">
-              <a class="item-block" href="company-detail.php">
+              <a class="item-block" href="company-detail.php?id=<?php echo $row['ID'] ?>">
                 <header>
-                  <img src="assets/img/logo-google.jpg" alt="">
+                  <img src="<?php echo $row['LOGO'] ?>" alt="">
                   <div class="hgroup">
-                    <h4>Google</h4>
-                    <h5>Internet and computer software</h5>
+                    <h4><?php echo $row['NAME'] ?></h4>
+                    <h5><?php echo $row['BUSINESS_TYPE'] ?></h5>
                   </div>
-                  <span class="open-position">15 open position</span>
+                  <span class="open-position"><?php echo $row1['NUMPOST'] ?> open position</span>
                 </header>
 
                 <div class="item-body">
-                  <p>Google Inc. is an American multinational technology company specializing in Internet-related services and products. These include online advertising technologies, search, cloud computing, and software. Most of its profits are derived from AdWords, an online advertising service that places advertising near the list of search results.</p>
+                  <p><?php echo $row['BUSINESS_FIELD'] ?></p>
                 </div>
               </a>
-            </div>
+			</div>
+			<?php } ?>
             <!-- END Company detail -->
-
-
-            <!-- Company detail -->
-            <div class="col-xs-12">
-              <a class="item-block" href="company-detail.php">
-                <header>
-                  <img src="assets/img/logo-facebook.png" alt="">
-                  <div class="hgroup">
-                    <h4>Facebook</h4>
-                    <h5>Internet</h5>
-                  </div>
-                  <span class="open-position">6 open position</span>
-                </header>
-
-                <div class="item-body">
-                  <p>Facebook is a corporation and online social networking service headquartered in Menlo Park, California, in the United States. Its website was launched on February 4, 2004, by Mark Zuckerberg with his Harvard College roommates and fellow students Eduardo Saverin, Andrew McCollum, Dustin Moskovitz and Chris Hughes. The founders had initially limited the website's membership to Harvard students, but later expanded it to colleges in the Boston area, the Ivy League, and Stanford University. It gradually added support for students at various other universities and later to high-school students.</p>
-                </div>
-              </a>
-            </div>
-            <!-- END Company detail -->
-
-
-
-            <!-- Company detail -->
-            <div class="col-xs-12">
-              <a class="item-block" href="company-detail.php">
-                <header>
-                  <img src="assets/img/logo-envato.png" alt="">
-                  <div class="hgroup">
-                    <h4>Envato</h4>
-                    <h5>Internet, Web Design, Web Development</h5>
-                  </div>
-                  <span class="open-position">2 open position</span>
-                </header>
-
-                <div class="item-body">
-                  <p>Envato (formerly Eden) operates a group of digital marketplaces that sell creative assets for web designers, including themes, graphics, video, audio, photography and 3D models. It has over 1.5 million active buyers and sellers and over 6 million community members. Its highest-trafficked marketplace, ThemeForest, is the 204th most visited site in the world according to Alexa.</p>
-                </div>
-              </a>
-            </div>
-            <!-- END Company detail -->
-
-
-
-            <!-- Company detail -->
-            <div class="col-xs-12">
-              <a class="item-block" href="company-detail.php">
-                <header>
-                  <img src="assets/img/logo-microsoft.jpg" alt="">
-                  <div class="hgroup">
-                    <h4>Microsoft</h4>
-                    <h5>Computer software and hardware</h5>
-                  </div>
-                  <span class="open-position">7 open position</span>
-                </header>
-
-                <div class="item-body">
-                  <p>Microsoft is an American multinational technology company headquartered in Redmond, Washington, that develops, manufactures, licenses, supports and sells computer software, consumer electronics and personal computers and services. Its best known software products are the Microsoft Windows line of operating systems, Microsoft Office office suite, and Internet Explorer and Edge web browsers. Its flagship hardware products are the Xbox game consoles and the Microsoft Surface tablet lineup. It is the world's largest software maker by revenue, and one of the world's most valuable companies.</p>
-                </div>
-              </a>
-            </div>
-            <!-- END Company detail -->
-
-
-            <!-- Company detail -->
-            <div class="col-xs-12">
-              <a class="item-block" href="company-detail.php">
-                <header>
-                  <img src="assets/img/logo-linkedin.png" alt="">
-                  <div class="hgroup">
-                    <h4>Linkedin</h4>
-                    <h5>Internet</h5>
-                  </div>
-                  <span class="open-position">3 open position</span>
-                </header>
-
-                <div class="item-body">
-                  <p>LinkedIn is a business-oriented social networking service. Founded in December 2002 and launched on May 5, 2003, it is mainly used for professional networking. As of 2015, most of the site's revenue comes from selling access to information about its users to recruiters and sales professionals. In 2006, LinkedIn increased to 20 million members. As of October 2015, LinkedIn reports more than 400 million acquired users in more than 200 countries and territories.</p>
-                </div>
-              </a>
-            </div>
-            <!-- END Company detail -->
-
-
-            <!-- Page navigation -->
-            <nav class="text-center">
-              <ul class="pagination">
-                <li>
-                  <a href="#" aria-label="Previous">
-                    <i class="ti-angle-left"></i>
-                  </a>
-                </li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li class="active"><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li>
-                  <a href="#" aria-label="Next">
-                    <i class="ti-angle-right"></i>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-            <!-- END Page navigation -->
-
           </div>
         </div>
       </section>

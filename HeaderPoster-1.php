@@ -1,4 +1,3 @@
-
     <!-- Navigation bar -->
     <nav class="navbar">
       <div class="container">
@@ -24,7 +23,10 @@
             </a>
 
             <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href="employee-register.php">Registry Employee</a></li>
+              <!--
+              <li><a href="user-login.php">Login</a></li>
+              <li><a href="user-register.php">Register</a></li>
+              <li><a href="user-forget-pass.php">Forget pass</a></li>-->
               <li><a href="user-logout.php">Logout</a></li>
             </ul>
           </div>
@@ -67,7 +69,7 @@
             <a href="#">Company</a>
             <ul>
               <li><a href="company-list.php">Browse companies</a></li>
-              <li><a href="company-detail.php?id_account=<?php echo $_SESSION['ID']?>">Company detail</a></li>
+              <li><a href="company-detail.php">Company detail</a></li>
               <li><a href="company-add.php">Create a company</a></li>
               <li><a href="company-manage.php">Manage companies</a></li>
             </ul>
@@ -92,30 +94,3 @@
     </nav>
     <!-- END Navigation bar -->
 
-
-    <!-- Site header -->
-    <header class="site-header size-lg text-center" style="background-image: url(assets/img/bg-banner1.jpg)">
-      <div class="container">
-        <div class="col-xs-12">
-          <br><br>
-          <h2>We offer <mark>1,259</mark> job vacancies right now!</h2>
-          <h5 class="font-alt">Find your desire one in a minute</h5>
-          <br><br><br>
-          <form class="header-job-search">
-            <div class="input-keyword">
-              <input type="text" class="form-control" placeholder="Job title, skills, or company">
-            </div>
-
-            <div class="input-location">
-              <input type="text" class="form-control" placeholder="City, state or zip">
-            </div>
-
-            <div class="btn-search">
-              <button class="btn btn-primary" type="submit">Find jobs</button>
-              <a href="">Advanced Job Search</a>
-            </div>
-          </form>
-        </div>
-
-      </div>
-    </header>

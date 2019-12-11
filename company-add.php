@@ -94,9 +94,9 @@
 	?>
     <!-- END Navigation bar -->
 
-    <form action="company-add.php" method="POST" enctype="multipart/form-data">
+    <!-- <form action="company-add.php" method="POST" enctype="multipart/form-data"> -->
 
-    <!-- <form action="company-add.php" method="POST" > -->
+    <form action="company-add.php" method="POST" > 
       <!-- Page header -->
       <header class="page-header">
         <div class="container page-name">
