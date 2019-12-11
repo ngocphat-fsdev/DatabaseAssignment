@@ -12,10 +12,11 @@
 		$row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
 	}
 	if (isset($_GET['id_account'])){
-		$company_id = $_GET['id_account'];
-		$tsql_callSP = "EXEC findCompaniesDetails '$company_id' ";
+		$id_account = $_GET['id_account'];
+    $tsql_callSP = "EXEC findCompaniesDetails '$id_account' ";
 		$stmt = sqlsrv_query($conn, $tsql_callSP);
-		$row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+    $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+    if ($row != NULL) $company_id = $row['ID']; 
 	}
 	if ($row == NULL) {
 		phpAlert("Không tồn tại công ty đó.");
@@ -28,6 +29,9 @@
 	$business_type = $row['BUSINESS_TYPE'];
 	$logo = $row['LOGO'];
 	$phone = $row['PHONENUMBER'];
+	$tsql_callSP = "SELECT * FROM F_RPOST_INFO('$company_id')";
+	$stmt = sqlsrv_query($conn, $tsql_callSP);
+	// $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -106,203 +110,45 @@
           </header>
           
           <div class="row">
+			<?php while ($row = sqlsrv_fetch_array($stmt)) { ?>
+				<!-- Job item -->
+				<div class="col-xs-12">
+				<a class="item-block" href="job-detail.php">
+					<header>
+					<img src="<?php echo $logo; ?>" alt="">
+					<div class="hgroup">
+						<h4><?php echo $row['TITLE']; ?></h4>
+						<h5><?php echo $name; ?> <span class="label label-success"><?php echo $row['REQUIREMENT']; ?></span></h5>
+					</div>
+					</header>
 
-            <!-- Job item -->
-            <div class="col-xs-12">
-              <a class="item-block" href="job-detail.php">
-                <header>
-                  <img src="assets/img/logo-google.jpg" alt="">
-                  <div class="hgroup">
-                    <h4>Senior front-end developer</h4>
-                    <h5>Google <span class="label label-success">Full-time</span></h5>
-                  </div>
-                  <time datetime="2016-03-10 20:00">34 min ago</time>
-                </header>
+					<div class="item-body">
+					<p><?php echo $row['POSTION']; ?></p>
+					</div>
 
-                <div class="item-body">
-                  <p>A rapidly growing, well established marketing firm is looking for an experienced web developer for a full-time position. In this role, you will develop websites, apps, emails and other forms of digital electronic media, all while maintaining brand standards across design projects and other marketing communication materials.</p>
-                </div>
+					<footer>
+					<ul class="details cols-3">
+						<li>
+						<i class="fa fa-map-marker"></i>
+						<span><?php echo $row['WORK_PLACE']; ?></span>
+						</li>
 
-                <footer>
-                  <ul class="details cols-3">
-                    <li>
-                      <i class="fa fa-map-marker"></i>
-                      <span>Menlo Park, CA</span>
-                    </li>
+						<li>
+						<i class="fa fa-money"></i>
+						<span><?php echo $row['SALARY']; ?> VND/Month</span>
+						</li>
 
-                    <li>
-                      <i class="fa fa-money"></i>
-                      <span>$90,000 - $110,000 / year</span>
-                    </li>
-
-                    <li>
-                      <i class="fa fa-certificate"></i>
-                      <span>Master or Bachelor</span>
-                    </li>
-                  </ul>
-                </footer>
-              </a>
-            </div>
-            <!-- END Job item -->
-
-
-            <!-- Job item -->
-            <div class="col-xs-12">
-              <a class="item-block" href="job-detail.php">
-                <header>
-                  <img src="assets/img/logo-google.jpg" alt="">
-                  <div class="hgroup">
-                    <h4>Software Engineer (Entry or Senior)</h4>
-                    <h5>Gogle <span class="label label-warning">Part-time</span></h5>
-                  </div>
-                  <time datetime="2016-03-10 20:00">8 hours ago</time>
-                </header>
-
-                <div class="item-body">
-                  <p>The Special Programs Department II is seeking to hire a Computer Scientist to augment our software development team. Members of the software development team are expected to follow established software engineering principles to methodically deliver mission application software.</p>
-                </div>
-
-                <footer>
-                  <ul class="details cols-3">
-                    <li>
-                      <i class="fa fa-map-marker"></i>
-                      <span>Livermore, CA</span>
-                    </li>
-
-                    <li>
-                      <i class="fa fa-money"></i>
-                      <span>$60,000 - $75,000 / year</span>
-                    </li>
-
-                    <li>
-                      <i class="fa fa-certificate"></i>
-                      <span>Master or Bachelor</span>
-                    </li>
-                  </ul>
-                </footer>
-              </a>
-            </div>
-            <!-- END Job item -->
-
-
-            <!-- Job item -->
-            <div class="col-xs-12">
-              <a class="item-block" href="job-detail.php">
-                <header>
-                  <img src="assets/img/logo-google.jpg" alt="">
-                  <div class="hgroup">
-                    <h4>Full Stack Web Developer</h4>
-                    <h5>Google <span class="label label-info">Freelance</span></h5>
-                  </div>
-                  <time datetime="2016-03-10 20:00">2 days ago</time>
-                </header>
-
-                <div class="item-body">
-                  <p>We're seeing a driven, curious, passionate full-stack web developer to help change how people learn creative skills and effortlessly create the images they imagine. You’ll be part of a new rapid prototyping and development team helping to apply lean startup development methodologies and modern web technologies to shape the future of Creative Cloud.</p>
-                </div>
-
-                <footer>
-                  <ul class="details cols-3">
-                    <li>
-                      <i class="fa fa-map-marker"></i>
-                      <span>San Francisco, CA</span>
-                    </li>
-
-                    <li>
-                      <i class="fa fa-money"></i>
-                      <span>$105,000 / year</span>
-                    </li>
-
-                    <li>
-                      <i class="fa fa-certificate"></i>
-                      <span>Master</span>
-                    </li>
-                  </ul>
-                </footer>
-              </a>
-            </div>
-            <!-- END Job item -->
-
-
-            <!-- Job item -->
-            <div class="col-xs-12">
-              <a class="item-block" href="job-detail.php">
-                <header>
-                  <img src="assets/img/logo-google.jpg" alt="">
-                  <div class="hgroup">
-                    <h4>Web Applications Developer</h4>
-                    <h5>Google <span class="label label-danger">Internship</span></h5>
-                  </div>
-                  <time datetime="2016-03-10 20:00">Feb 26, 2016</time>
-                </header>
-
-                <div class="item-body">
-                  <p>Client needs a back-end Java developer who has worked mainly on Java, J2EE, Spring, Web Services, and other Java related technologies.</p>
-                </div>
-
-                <footer>
-                  <ul class="details cols-3">
-                    <li>
-                      <i class="fa fa-map-marker"></i>
-                      <span>Lexington, MA</span>
-                    </li>
-
-                    <li>
-                      <i class="fa fa-money"></i>
-                      <span>$130,000 - $150,000 / year</span>
-                    </li>
-
-                    <li>
-                      <i class="fa fa-certificate"></i>
-                      <span>Ph.D. or Master</span>
-                    </li>
-                  </ul>
-                </footer>
-              </a>
-            </div>
-            <!-- END Job item -->
-
-
-            <!-- Job item -->
-            <div class="col-xs-12">
-              <a class="item-block" href="job-detail.php">
-                <header>
-                  <img src="assets/img/logo-google.jpg" alt="">
-                  <div class="hgroup">
-                    <h4>Sr. SQL Server Developer</h4>
-                    <h5>Google <span class="label label-success">Remote</span></h5>
-                  </div>
-                  <time datetime="2016-03-10 20:00">Feb 16, 2016</time>
-                </header>
-
-                <div class="item-body">
-                  <p>Understand and model complex business requirements into database schemas and work with existing databases in SQL and NOSQL data stores. Develop high performance stored procedures, triggers and other database level code to provide data services to other teams.</p>
-                </div>
-
-                <footer>
-                  <ul class="details cols-3">
-                    <li>
-                      <i class="fa fa-map-marker"></i>
-                      <span>Palo Alto, CA</span>
-                    </li>
-
-                    <li>
-                      <i class="fa fa-money"></i>
-                      <span>$125,000 - $140,000 / year</span>
-                    </li>
-
-                    <li>
-                      <i class="fa fa-certificate"></i>
-                      <span>Ph.D. or Master</span>
-                    </li>
-                  </ul>
-                </footer>
-              </a>
-            </div>
-            <!-- END Job item -->
-
-          </div>
-
+						<li>
+						<i class="fa fa-certificate"></i>
+						<span><?php echo $row['QUANTITY']; ?> Person</span>
+						</li>
+					</ul>
+					</footer>
+				</a>
+				</div>
+				<!-- END Job item -->
+				<?php } ?>
+			</div>
         </div>
       </section>
       <!-- END Open positions -->

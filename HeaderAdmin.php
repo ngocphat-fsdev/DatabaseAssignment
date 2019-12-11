@@ -83,6 +83,7 @@
               <li><a href="page-contact.php">Contact</a></li>
               <li><a href="page-faq.php">FAQ</a></li>
               <li><a href="page-pricing.php">Pricing</a></li>
+              <li><a href="page-pricing-update.php">Pricing Update</a></li>
               <li><a href="page-typography.php">Typography</a></li>
               <li><a href="page-ui-elements.php">UI elements</a></li>
             </ul>
