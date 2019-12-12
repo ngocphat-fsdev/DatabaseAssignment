@@ -18,9 +18,13 @@
     if ($stmt == false){
       die( print_r( sqlsrv_errors(), true));
     }
+    
+    $sql = "SELECT Max(ID) FROM CV";
+    $stmt = sqlsrv_query($conn, $sql);
+    $row = sqlsrv_fetch_array($stmt);
     sqlsrv_close($conn);
     echo '<script language="javascript">alert("CV nộp thành công")</script>';
-    echo "<script> location.replace('resume-add.php');</script>";
+    echo "<script> location.replace('job-detail.php?id=" . $_GET['id'] . "&cvid=" . $row[0]. "');</script>";
     exit;
   }
 ?>
@@ -55,9 +59,9 @@
         include "HeaderUser.php";
       //}
     ?>
-
-    <form action="resume-add.php" method="POST">
-
+    <?php
+    echo "<form action='resume-add.php?id=". $_GET['id'] ."' method='POST'>";
+          ?>
       <!-- Page header -->
       <header class="page-header">
         <div class="container page-name">

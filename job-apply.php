@@ -1,3 +1,6 @@
+<?php 
+  include 'permission.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>

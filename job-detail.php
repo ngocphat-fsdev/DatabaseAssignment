@@ -29,6 +29,18 @@
 	$name = $row1['NAME'];
 	$logo = $row1['LOGO'];
 	// $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
+
+	if (isset($_GET['id']) && isset($_GET['cvid'])){
+		$sql = "INSERT INTO SUBMIT_CV(ID_RPOST, ID_CV, ID_USER, TIMESUBMIT) VALUES (?, ?, ?, GETDATE())";
+		$param = array($_GET['id'], $_GET['cvid'], $_SESSION['ID']);
+		$stmt = sqlsrv_query($conn, $sql, $param);
+
+		if ($stmt == false){
+			die( print_r( sqlsrv_errors(), true));
+		}
+
+		sqlsrv_close($conn);
+	}
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +119,7 @@
 
 			<div class="button-group">
 				<div class="action-buttons">
-				<a class="btn btn-success" href="job-apply.php?id=<?php echo $post_id ?>">Apply now</a>
+				<a class="btn btn-success" href="resume-add.php?id=<?php echo $_GET['id'] ?>">Apply now</a>
 				</div>
 			</div>
 

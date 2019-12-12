@@ -1,5 +1,5 @@
 <?php
-    $serverName="LAPTOP-NU2SEJD2";
+    $serverName="DESKTOP-G1UR9M1\MSSQLDB";
 
     $connectionInfo = array("Database"=>"ASSIGNMENT2_DS");
     $conn = sqlsrv_connect($serverName, $connectionInfo);

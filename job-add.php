@@ -49,7 +49,8 @@
 		sqlsrv_close($conn);
 		phpAlert("Tạo tin tuyển dụng thành công.");
         exit();
-	}
+  }
+
 
 ?>
 

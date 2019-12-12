@@ -100,7 +100,8 @@ create procedure get_newest_recruit_post		--12/ hien thi tin tuyen dung moi nhat
 as
 begin
 	select UPLOADER_NAME,TITLE 
-	from POST join RECRUIT_POST on POST.ID = RECRUIT_POST.ID
+	from POST
+	join RECRUIT_POST on POST.ID = RECRUIT_POST.ID
 	where DATEDIFF(day,POST.UPLOAD_TIME,GETDATE()) = (select MIN(DATEDIFF(day,POST.UPLOAD_TIME,GETDATE())) from POST,RECRUIT_POST where POST.ID = RECRUIT_POST.ID );
 end;
 
