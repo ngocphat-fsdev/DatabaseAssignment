@@ -107,7 +107,7 @@
 
 			<div class="button-group">
 				<div class="action-buttons">
-				<a class="btn btn-success" href="job-apply.php">Apply now</a>
+				<a class="btn btn-success" href="job-apply.php?id=<?php echo $post_id ?>">Apply now</a>
 				</div>
 			</div>
 
