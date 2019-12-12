@@ -113,7 +113,7 @@
 			<?php while ($row = sqlsrv_fetch_array($stmt)) { ?>
 				<!-- Job item -->
 				<div class="col-xs-12">
-				<a class="item-block" href="job-detail.php">
+				<a class="item-block" href="job-detail.php?id=<?php echo $row['ID'] ?>">
 					<header>
 					<img src="<?php echo $logo; ?>" alt="">
 					<div class="hgroup">
@@ -135,7 +135,7 @@
 
 						<li>
 						<i class="fa fa-money"></i>
-						<span><?php echo $row['SALARY']; ?> VND/Month</span>
+						<span><?php echo $row['SALARY']; ?> $/Month</span>
 						</li>
 
 						<li>

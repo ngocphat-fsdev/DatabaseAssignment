@@ -28,13 +28,13 @@
 		$address = $_POST['txtLocation'];
 		$website = $_POST['txtWebsite'];
 		$phone = $_POST['txtPhone'];
-		$logo = $_FILES["CompanyLogo"]["name"];
-	    $dir = "./assets/img/logo-company/".$id_account."_logo.jpg";
-		if (move_uploaded_file($_FILES["CompanyLogo"]["tmp_name"], $dir)){
-			$check = TRUE;
-		}
-   		$logo = $dir;
-		// $logo = "assets/img/logo-default.png";
+		// $logo = $_FILES['file']['name'];
+	  // $dir = "./assets/img/logo-company/".$id_account."_logo.png";
+		// if (move_uploaded_file($_FILES['file']['tmp_name'], $dir)){
+		// 	$check = TRUE;
+		// }
+   	// 	$logo = $dir;
+		$logo = "assets/img/logo-default.png";
 		$id_account = $_SESSION['ID'];
 
 		$tsql_callSP = "EXEC InsertCompany ?, ?, ?, ?, ?, ?, ?, ?";
@@ -94,9 +94,9 @@
 	?>
     <!-- END Navigation bar -->
 
-    <!-- <form action="company-add.php" method="POST" enctype="multipart/form-data"> -->
+    <form action="company-add.php" method="POST" enctype="multipart/form-data"> 
 
-    <form action="company-add.php" method="POST" > 
+    <!-- <form action="company-add.php" method="POST" >  -->
       <!-- Page header -->
       <header class="page-header">
         <div class="container page-name">
@@ -110,7 +110,7 @@
 					<div class="row">
 						<div class="col-xs-12 col-sm-4 col-lg-2">
 							<div class="form-group">
-								<input type="file" class="dropify" name="CompanyLogo" id="CompanyLogo" data-default-file="assets/img/logo-default.png">
+								<input type="file" class="dropify" name="file" id="file" data-default-file="assets/img/logo-default.png">
 								 <span class="help-block">A square logo</span> 
 							</div>
 						</div>
