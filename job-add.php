@@ -6,11 +6,6 @@
     }
     include('connectDB.php');
     $id_account = $_SESSION['ID'];
-    // $tsql_callSP = "EXEC CheckCompany '$id_account' ";
-    // $stmt = sqlsrv_query($conn, $tsql_callSP);
-    // $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
-    // $company_name = row['NAME'];
-    $company_name = "HCMUT";
 	if (isset($_POST['btnSubmit'])){
 		$title = $_POST['title'];
 		$recruitUploaderName = $_SESSION['USERNAME'];
@@ -101,10 +96,6 @@
 		<div class="row">
 			<div class="form-group col-xs-12 col-sm-6">
 				<input type="text" name="title" class="form-control input-lg" placeholder="Job title, e.g. Front-end developer">
-			</div>
-
-			<div class="form-group col-xs-12 col-sm-6">
-				<a href="company-detail.php?id=3"> <?php echo "Company: " . $company_name; ?> </a>
 			</div>
 
 
