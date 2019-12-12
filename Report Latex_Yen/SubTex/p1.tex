@@ -1,0 +1,188 @@
+\section{Phần chung}
+\subsection{Các câu lệnh tạo bảng và ràng buộc}
+\subsection{Các câu lệnh tạo chỉ mục}
+\subsection{Các câu lệnh insert dữ liệu (nếu có)}
+\newpage
+\section{Phần riêng}
+\subsection{Thành viên 1}
+\textbf{$\indent$Thành viên 1: \\
+$\indent$Họ tên: Cao Nguyệt Minh \\ 	$\indent$MSSV: 1710188}
+$\indent$
+\subsubsection{Thủ tục insert dữ liệu:}
+$\indent$Mô tả chức năng: Tạo tài khoản cho người dùng\\
+$\indent$Câu lệnh tạo thủ tục:
+\lstinputlisting{files/insertUser.sql}
+$\indent$Câu lệnh thực thi thủ tục mẫu: 
+\begin{lstlisting}
+EXEC InsertUser 'Cao Nguyet Minh', 'minh.nguyet', '123456', '1', '09-29-1999', 3
+\end{lstlisting}
+\newpage
+\subsubsection{Trigger:}
+\textbf{Trigger 1}\\
+Mô tả chức năng: Kiểm tra thông tin của User. \\Nếu họ và tên của người dùng đều là chuỗi số thì báo lỗi. Nếu ngày sinh vượt qua thời gian hiện tại thì báo lỗi.\\
+Câu lệnh tạo Trigger:
+\lstinputlisting{files/triggerNUser.sql}
+Câu lệnh kiểm tra trigger hoạt động: 
+\begin{lstlisting}
+EXEC InsertUser 'Minh Cao', 'minhcao', '123456', '0', '12-13-2020', 3
+--ERROR INVALID BIRTHDATE
+\end{lstlisting}
+\textbf{Trigger 2}\\
+Mô tả chức năng: Kiểm tra thông tin của Company \\ Nếu tên công ty là chuỗi số thì báo lỗi. Nếu số điện thoại không phải là chuỗi số thì báo lỗi.\\
+Câu lệnh tạo Trigger:
+\lstinputlisting{files/TriggerCompany.sql}
+Câu lệnh kiểm tra trigger hoạt động: \\
+\subsubsection{Thủ tục chứa câu SQL:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo thủ tục\\
+$\indent$Câu lệnh thực thi thủ tục: \\
+\subsubsection{Hàm:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo hàm\\
+$\indent$Câu lệnh SELECT minh họa gọi hàm: \\
+\subsubsection{Giao diện ứng dụng và các hình ảnh minh họa:}
+$\indent$Giao diện\\
+\newpage
+\subsection{Thành viên 2}
+\textbf{$\indent$Thành viên 2: \\
+	$\indent$Họ tên: Nguyễn Ngọc Phát \\ 	$\indent$MSSV: 1710228}
+$\indent$
+\subsubsection{Thủ tục insert dữ liệu:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo thủ tục\\
+$\indent$Câu lệnh thực thi thủ tục mẫu: \\
+\subsubsection{Trigger:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo Trigger\\
+$\indent$Câu lệnh kiểm tra trigger hoạt động: \\
+\subsubsection{Thủ tục chứa câu SQL:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo thủ tục\\
+$\indent$Câu lệnh thực thi thủ tục: \\
+\subsubsection{Hàm:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo hàm\\
+$\indent$Câu lệnh SELECT minh họa gọi hàm: \\
+\subsubsection{Giao diện ứng dụng và các hình ảnh minh họa:}
+$\indent$Giao diện\\
+\newpage
+\subsection{Thành viên 3}
+\textbf{$\indent$Thành viên 3: \\
+	$\indent$Họ tên: Trần Chí Kiệt \\ 	$\indent$MSSV: }
+$\indent$
+\subsubsection{Thủ tục insert dữ liệu:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo thủ tục\\
+$\indent$Câu lệnh thực thi thủ tục mẫu: \\
+\subsubsection{Trigger:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo Trigger\\
+$\indent$Câu lệnh kiểm tra trigger hoạt động: \\
+\subsubsection{Thủ tục chứa câu SQL:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo thủ tục\\
+$\indent$Câu lệnh thực thi thủ tục: \\
+\subsubsection{Hàm:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo hàm\\
+$\indent$Câu lệnh SELECT minh họa gọi hàm: \\
+\subsubsection{Giao diện ứng dụng và các hình ảnh minh họa:}
+$\indent$Giao diện\\
+\newpage
+\subsection{Thành viên 3}
+\textbf{$\indent$Thành viên 4: \\
+	$\indent$Họ tên:  \\ 	$\indent$MSSV: }
+$\indent$
+\subsubsection{Thủ tục insert dữ liệu:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo thủ tục\\
+$\indent$Câu lệnh thực thi thủ tục mẫu: \\
+\subsubsection{Trigger:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo Trigger\\
+$\indent$Câu lệnh kiểm tra trigger hoạt động: \\
+\subsubsection{Thủ tục chứa câu SQL:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo thủ tục\\
+$\indent$Câu lệnh thực thi thủ tục: \\
+\subsubsection{Hàm:}
+$\indent$Mô tả chức năng\\
+$\indent$Câu lệnh tạo hàm\\
+$\indent$Câu lệnh SELECT minh họa gọi hàm: \\
+\subsubsection{Giao diện ứng dụng và các hình ảnh minh họa:}
+$\indent$Giao diện\\
+\newpage
+\subsection{Thành viên 5}
+\textbf{$\indent$Thành viên 5: \\
+	$\indent$Họ tên: Cao Ngọc Xuân Yến \\ $\indent$MSSV:1714075 }
+\subsubsection{Thủ tục insert dữ liệu:}
+$\indent$Mô tả chức năng: Tạo một blog mới\\
+$\indent$Câu lệnh tạo thủ tục\\
+\lstinputlisting{files/insert_blog.sql}
+$\indent$Câu lệnh thực thi thủ tục mẫu: \\
+\begin{lstlisting}
+EXEC blog_insert 'Framework JS trong nam 2019','Vuejs.jpg',2
+\end{lstlisting}
+\subsubsection{Trigger: }
+\textbf{Trigger 1}\\
+Mô tả chức năng: Cập nhật số blog đã đăng. \\Nếu có một blog mới được chèn thì số blog đã đăng của người dùng tương ứng sẽ tăng thêm 1\\
+Câu lệnh tạo Trigger:
+\lstinputlisting{files/countblog_trigger.sql}
+Câu lệnh kiểm tra trigger hoạt động: 
+\begin{lstlisting}
+Insert into dbo.BLOG ( CONTENT, PIC, ID_USER ) values ('JS library','jquery.jpg',12)
+\end{lstlisting}
+\textbf{Trigger 2}\\
+Mô tả chức năng: tự động cập nhật ngày tháng hiện tại cho post mới đăng\\
+Câu lệnh tạo Trigger:
+\lstinputlisting{files/trigger_capnhatngaythang.sql}
+Câu lệnh kiểm tra trigger hoạt động: \\
+\begin{lstlisting}
+Insert into dbo.POST ( ID,ACC_ID,UPLOADER_NAME,TITLE,UPLOAD_TIME ) values (12,100,'XuanYen','laptrinhweb',2-2-2012)
+\end{lstlisting}
+\subsubsection{Thủ tục chứa câu SQL:}
+\textbf{Procedure 1}\\
+Mô tả chức năng: Cập nhật nội dung bảng blog và post khi có bất kì quá trình cập nhật nào xảy ra\\
+Câu lệnh tạo Procedure:
+\lstinputlisting{files/blog_update.sql}
+Câu lệnh kiểm tra procedure hoạt động: 
+\begin{lstlisting}
+exec blog_update 123,'web',1212,'front-end là một nghề khá thú vị và có nhiều hướng phát triển','frontend.jpg',12,10,0
+\end{lstlisting}
+\textbf{Procedure 2}\\
+Mô tả chức năng: Hiển thị tất cả nội dung của blog theo ID nhập vào\\
+Câu lệnh tạo Procedure:
+\lstinputlisting{files/showblog.sql}
+Câu lệnh kiểm tra procedure hoạt động: \\
+\begin{lstlisting}
+exec blog_show_blogID 1212
+\end{lstlisting}
+\subsubsection{Hàm:}
+\textbf{Function 1}\\
+Mô tả chức năng: Trả về ID của blog có số view cao nhất\\
+Câu lệnh tạo Function:
+\lstinputlisting{files/func_blogshowmostview.sql}
+Câu lệnh kiểm tra function hoạt động: 
+\begin{lstlisting}
+SELECT dbo.blog_show_most_view() most_view
+\end{lstlisting}
+\textbf{Function 2}\\
+Mô tả chức năng: Tìm kiếm tất của thông tin của một blog dựa trên title nhập vào\\
+Câu lệnh tạo Function:
+\lstinputlisting{files/searchblog_title.sql}
+Câu lệnh kiểm tra function hoạt động: \\
+\begin{lstlisting}
+SELECT dbo.search_title('frontendweb') search_result
+\end{lstlisting}
+\subsubsection{Giao diện ứng dụng và các hình ảnh minh họa:}
+$\indent$Giao diện\\
+\section{Phụ lục}
+\subsection{Báo cáo bài tập lớn 1}
+\subsection{Source code chương trình:}
+\subsection{Bảng phân công nhiệm vụ cho phần chung và bài tập lớn số 1}
+\newpage
+\section{Ánh xạ sang lược đồ CSDL}
+
+\end{document}
+
+
